@@ -6,8 +6,6 @@ Version:	1.5.0
 Release:	1
 License:	BSD
 Group:		Daemons
-Group(de):	Server
-Group(pl):	Serwery
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/netatalk/%{name}-%{version}.tar.bz2
 Source1:	%{name}.init
 Source2:	%{name}.pamd
@@ -47,13 +45,6 @@ Summary:	Headers and static libraries for Appletalk development
 Summary(pl):	Pliki nagЁСwkoew i biblioteki statyczne Appletalk
 Summary(pt_BR):	Arquivos de inclusЦo e bibliotecas para o desenvolvimento de aplicativos baseados no protocolo AppleTalk
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name} = %{version}
 
 %description devel
