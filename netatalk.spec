@@ -3,13 +3,13 @@ Summary(pl):	Klient i serwer AppleTalk
 Summary(pt_BR):	Programas para rede AppleTalk
 Summary(zh_CN):	Appletalk 和 Appleshare/IP 服务工具
 Name:		netatalk
-Version:	1.6.3
-Release:	2
+Version:	1.6.4
+Release:	1
 Epoch:		2
 License:	BSD
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/netatalk/%{name}-%{version}.tar.bz2
-# Source0-md5:	fa3d0e08499525d9a627fe17a2d93d1b
+# Source0-md5:	8bed0582d51deef7a31da1b6ae5df2e6
 Source1:	%{name}.init
 Source2:	%{name}.pamd
 Source3:	%{name}.sysconfig
