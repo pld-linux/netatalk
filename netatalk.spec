@@ -117,8 +117,7 @@ gzip -9nf BUGS CHANGES COPYRIGHT ChangeLog ICDu* \
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/sbin/chkconfig --add atalk
-ldconfig
+/sbin/ldconfig
 # Do only for the first install
 if [ "$1" = 1 ] ; then
   # Add the ddp lines to /etc/services
@@ -146,16 +145,11 @@ afpovertcp	548/udp
 _EOD2_
   fi
 fi
-    echo "Run \"/etc/rc.d/init.d/atalk start\" to start netatalk." >&2
+NAME=atalk; DESC=netatalk; %chkconfig_add
 	
 %preun
-if [ "$1" = "0" ]; then
-/etc/rc.d/init.d/atalk stop >&2
-fi
-
+NAME=atalk; %chkconfig_del
 if [ "$1" = "0" ] ; then
-  %{_initdir}/atalk stop > /dev/null 2>&1
-  /sbin/chkconfig --del atalk
   # remove the ddp lines from /etc/services
   if (grep '^# start of DDP services$' /etc/services >/dev/null && \
       grep '^# end of DDP services$' /etc/services >/dev/null ); then
