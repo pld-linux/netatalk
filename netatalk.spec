@@ -3,7 +3,7 @@ Summary(pl):	Klient i serwer AppleTalk
 Summary(pt_BR):	Programas para rede AppleTalk
 Name:		netatalk
 Version:	1.5.0
-Release:	1
+Release:	2
 License:	BSD
 Group:		Daemons
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/netatalk/%{name}-%{version}.tar.bz2
@@ -21,6 +21,8 @@ BuildRequires:	db3-devel
 BuildRequires:	libtool
 BuildRequires:	openssl-devel
 BuildRequires:	pam-devel
+BuildRequires:  gettext-devel
+BuildRequires:  glibc-static
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_initdir	/etc/rc.d/init.d
@@ -113,6 +115,7 @@ gzip -9nf BUGS CHANGES COPYRIGHT ChangeLog ICDu* \
 
 # to avoid conflict with glibc-devel
 rm -f $RPM_BUILD_ROOT%{_includedir}/atalk/at.h
+rm -f $RPM_BUILD_ROOT%{_includedir}/netatalk/at.h
 
 %clean
 rm -rf $RPM_BUILD_ROOT
