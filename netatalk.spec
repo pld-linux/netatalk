@@ -16,7 +16,7 @@ Source4:	ICDumpSuffixMap
 Patch0:		%{name}-configure.patch
 URL:		http://www.umich.edu/~rsug/netatalk/
 Prereq:		/sbin/chkconfig
-nBuildRequires:	autoconf
+BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	cracklib-devel
 BuildRequires:	db3-devel
