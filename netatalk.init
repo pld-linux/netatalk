@@ -49,12 +49,12 @@ case "$1" in
 		exit 0
 	fi
 
-	if is_no "${ATALKD_RUN}"; then 
+	if is_yes "${ATALKD_RUN}"; then 
 		msg_starting "atalkd"
 		daemon atalkd
 		RETVAL_ATALKD=$?
-		run_cmd $(nls "Registering %s" "${ATALK_NAME}:Workstation${ATALK_ZONE}:") "nbprgstr -p 4 \"${ATALK_NAME}:Workstation${ATALK_ZONE}\""
-		run_cmd $(nls "Registering %s" "${ATALK_NAME}:netatalk${ATALK_ZONE}:") "nbprgstr -p 4 \"${ATALK_NAME}:netatalk${ATALK_ZONE}\""
+		run_cmd -a "$(nls "Registering %s" "${ATALK_NAME}:Workstation${ATALK_ZONE}:")" "nbprgstr -p 4 \"${ATALK_NAME}:Workstation${ATALK_ZONE}\""
+		run_cmd -a "$(nls "Registering %s" "${ATALK_NAME}:netatalk${ATALK_ZONE}:")" "nbprgstr -p 4 \"${ATALK_NAME}:netatalk${ATALK_ZONE}\""
 		if is_yes "${PAPD_RUN}"; then
 			msg_starting "papd"
 			daemon papd
@@ -85,7 +85,7 @@ case "$1" in
 		exit 0
 	fi
 
-	if is_no "${ATALKD_RUN}"; then
+	if is_yes "${ATALKD_RUN}"; then
 		if is_yes "${PAPD_RUN}"; then
 			msg_stopping "papd"
 			killproc papd
@@ -96,14 +96,14 @@ case "$1" in
 			killproc timelord
 		fi
 
-		run_cmd $(nls "Unregistering %s" "${ATALK_NAME}:Workstation${ATALK_ZONE}:") "nbpunrgstr \"${ATALK_NAME}:Workstation${ATALK_ZONE}\""
-		run_cmd $(nls "Unregistering %s" "${ATALK_NAME}:netatalk${ATALK_ZONE}:") "nbpunrgstr \"${ATALK_NAME}:netatalk${ATALK_ZONE}\""
+		run_cmd "$(nls "Unregistering %s" "${ATALK_NAME}:Workstation${ATALK_ZONE}:")" "nbpunrgstr \"${ATALK_NAME}:Workstation${ATALK_ZONE}\""
+		run_cmd "$(nls "Unregistering %s" "${ATALK_NAME}:netatalk${ATALK_ZONE}:")" "nbpunrgstr \"${ATALK_NAME}:netatalk${ATALK_ZONE}\""
 
 		msg_stopping "atalk"
 		killproc atalkd
 	fi
 
-	if [ is_yes "${AFPD_RUN}"; then
+	if  is_yes "${AFPD_RUN}"; then
 		msg_stopping "afpd"
 		killproc afpd
 	fi
@@ -117,7 +117,21 @@ case "$1" in
 	exit $?
 	;;
   status)
-	status atalkd
+	if is_yes "${ATALKD_RUN}"; then 
+	    if is_yes "${PAPD_RUN}"; then
+		status papd
+	    fi
+	    
+	    if is_yes "${TIMELORD_RUN}"; then
+		status timelord
+	    fi
+	    
+	    if  is_yes "${AFPD_RUN}"; then
+		status afpd
+	    fi
+	    status atalkd
+	    nbplkup ${ATALK_NAME}
+	fi
 	exit $?
 	;;
   *)
