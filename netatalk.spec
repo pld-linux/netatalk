@@ -26,7 +26,7 @@ BuildRequires:	openssl-devel
 BuildRequires:	pam-devel
 Requires(post,preun):/sbin/chkconfig
 Requires(post):	/sbin/ldconfig
-Requires:	rc
+Requires:	rc-scripts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_initdir	/etc/rc.d/init.d
