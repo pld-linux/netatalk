@@ -74,10 +74,10 @@ aplicativos baseados no protocolo AppleTalk.
 rm -f missing
 %{__gettextize}
 %{__libtoolize}
-aclocal -I macros
+%{__aclocal} -I macros
 %{__autoconf}
 %{__automake}
-autoheader
+%{__autoheader}
 %configure \
 	--with-config-dir=%{_sysconfdir}/atalk \
 	--with-pkgconfdir=%{_sysconfdir}/atalk \
