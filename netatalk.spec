@@ -28,8 +28,6 @@ Requires(post,preun):/sbin/chkconfig
 Requires(post):	/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_initdir	/etc/rc.d/init.d
-
 %description
 This package enables Linux to talk to Macintosh computers via the
 AppleTalk networking protocol. It includes a daemon to allow Linux to
@@ -107,7 +105,7 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}/{rc.d/init.d,pam.d,security,sysconfig,a
 
 install etc/afpd/nls/{makecode,parsecode} $RPM_BUILD_ROOT/%{_bindir}
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_initdir}/atalk
+install %{SOURCE1} $RPM_BUILD_ROOT%{_initrddir}/atalk
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/pam.d/netatalk
 install %{SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/netatalk
 install %{SOURCE4} .
@@ -125,12 +123,12 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/ldconfig
 /sbin/chkconfig --add atalk
 if [ "$1" = "1" ] ; then
-	echo "Run \"%{_initdir}/atalk start\" to start netatalk." >&2
+	echo "Run \"%{_initrddir}/atalk start\" to start netatalk." >&2
 fi
 
 %preun
 if [ "$1" = "0" ]; then
-	%{_initdir}/atalk stop >&2
+	%{_initrddir}/atalk stop >&2
 	/sbin/chkconfig --del atalk
 fi
 
@@ -149,13 +147,13 @@ fi
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/atalkd.conf
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/papd.conf
 
-%attr(755,root,root) %config %{_initdir}/atalk
+%attr(755,root,root) %config %{_initrddir}/atalk
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/pam.d/netatalk
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/security/blacklist.netatalk
 
 %attr(755,root,root) %{_sbindir}/*
-%attr(755,root,root) %{_bindir}/[^n]*
-%attr(755,root,root) %{_bindir}/n[^e]*
+%attr(755,root,root) %{_bindir}/[!n]*
+%attr(755,root,root) %{_bindir}/n[!e]*
 %attr(755,root,root) %{_bindir}/netatalkshorternamelinks.pl
 %attr(755,root,root) %{_libdir}/atalk/*.so
 %{_mandir}/*/*
