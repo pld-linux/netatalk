@@ -3,7 +3,7 @@ Summary(pl):	Klient i serwer AppleTalk
 Summary(pt_BR):	Programas para rede AppleTalk
 Name:		netatalk
 Version:	1.5.3.1
-Release:	4
+Release:	5
 Epoch:		2
 License:	BSD
 Group:		Daemons
@@ -28,6 +28,7 @@ BuildRequires:	openssl-devel
 BuildRequires:	pam-devel
 Requires(post,preun):/sbin/chkconfig
 Requires(post):	/sbin/ldconfig
+Requires:	rc
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_initdir	/etc/rc.d/init.d
