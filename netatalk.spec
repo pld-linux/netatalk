@@ -3,7 +3,7 @@ Summary(pl):	Klient i serwer AppleTalk
 Summary(pt_BR):	Programas para rede AppleTalk
 Name:		netatalk
 Version:	1.5.3.1
-Release:	3
+Release:	4
 Epoch:		2
 License:	BSD
 Group:		Daemons
@@ -88,7 +88,7 @@ autoheader
 	--with-msg-dir=%{_sysconfdir}/atalk/msg \
 	--enable-lastdid \
 	--enable-timelord \
-        --with-cracklib=%{_datadir}/dict \
+        --with-cracklib=%{_datadir}/dict/cracklib_dict \
         --with-pam \
         --with-shadow \
         --with-tcp-wrappers \
