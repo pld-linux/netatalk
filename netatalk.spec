@@ -1,5 +1,6 @@
 Summary:	AppleTalk networking programs
 Summary(pl):	Klient i serwer AppleTalk
+Summary(pt_BR):	Programas para rede AppleTalk
 Name:		netatalk
 Version:	1.5pre8
 Release:	1
@@ -12,16 +13,16 @@ Source1:	%{name}.init
 Source2:	%{name}.pamd
 Source3:	%{name}.sysconfig
 Source4:	ICDumpSuffixMap
-Patch0:         %{name}-configure.patch
+Patch0:		%{name}-configure.patch
 URL:		http://www.umich.edu/~rsug/netatalk/
 Prereq:		/sbin/chkconfig
-BuildRequires:	pam-devel
-BuildRequires:	openssl-devel
-BuildRequires:	db3-devel
-BuildRequires:	cracklib-devel
+nBuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	autoconf
+BuildRequires:	cracklib-devel
+BuildRequires:	db3-devel
 BuildRequires:	libtool
+BuildRequires:	openssl-devel
+BuildRequires:	pam-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define _initdir /etc/rc.d/init.d 
@@ -37,13 +38,22 @@ po∂rednictwem protoko≥u AppleTalk. Uczyni twojego Linux-a serwerem
 oraz klienta plikÛw i wydrukÛw zarÛwno za po∂rednictwem protoko≥u
 EtherTalk jaki IP for Mac's.
 
+%description -l pt_BR
+Este pacote habilita o Linux a servir computadores Macintosh atravÈs
+do protocolo AppleTalk.
+
 %package devel
 Summary:	Headers and static libraries for Appletalk development
 Summary(pl):	Pliki nag≥Ûwkoew i biblioteki statyczne Appletalk
+mmary(pt_BR):	Arquivos de inclus„o e bibliotecas para o desenvolvimento de aplicativos baseados no protocolo AppleTalk
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	Ú¡⁄“¡¬œ‘À¡/‚…¬Ã…œ‘≈À…
+Group(uk):	Úœ⁄“œ¬À¡/‚¶¬Ã¶œ‘≈À…
 Requires:	%{name} = %{version}
 
 %description devel
@@ -54,6 +64,9 @@ building Appletalk networking programs.
 Pakiet ten zawiera pliki nag≥Ûwkowe i biblioteki statyczne serwera
 AppleTalk
 
+%description -l pt_BR devel
+Arquivos de inclus„o e bibliotecas para o desenvolvimento de
+aplicativos baseados no protocolo AppleTalk.
 
 %prep
 %setup -q
@@ -80,7 +93,6 @@ autoheader
         --with-tcp-wrappers \
         --with-ssl \
         --enable-pgp-uam
-
 
 %{__make}
 
