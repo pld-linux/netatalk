@@ -13,7 +13,7 @@ Source1:	%{name}.init
 Source2:	%{name}.pamd
 Source3:	%{name}.sysconfig
 Source4:	ICDumpSuffixMap
-Patch0:		%{name}-configure.patch
+Patch0:		%{name}-makefile-am.patch
 URL:		http://www.umich.edu/~rsug/netatalk/
 Prereq:		/sbin/chkconfig
 BuildRequires:	autoconf
@@ -70,7 +70,7 @@ aplicativos baseados no protocolo AppleTalk.
 
 %prep
 %setup -q
-#%patch0 -p1
+%patch0 -p1
 
 %build
 rm -f missing
