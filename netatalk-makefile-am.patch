@@ -1,0 +1,25 @@
+diff -uNr netatalk-1.5.0.orig/contrib/shell_utils/Makefile.am netatalk-1.5.0/contrib/shell_utils/Makefile.am
+--- netatalk-1.5.0.orig/contrib/shell_utils/Makefile.am	Sun Dec 16 19:42:51 2001
++++ netatalk-1.5.0/contrib/shell_utils/Makefile.am	Mon Jan  7 21:48:38 2002
+@@ -4,11 +4,12 @@
+ 
+ GENERATED_FILES = lp2pap.sh
+ TEMPLATE_FILES = $(foreach f,$(GENERATED_FILES),$(f).tmpl)
+-SCRIPTS = \
++bin_SCRIPTS = \
+ 	afpd-mtab.pl			\
+ 	apple_cp apple_mv apple_rm	\
+ 	cleanappledouble.pl		\
+-	netatalkshorternamelinks.pl
++	netatalkshorternamelinks.pl	\
++	$(GENERATED_FILES)
+ 
+ SUFFIXES = .tmpl .
+ 
+@@ -20,6 +21,4 @@
+ 
+ CLEANFILES = $(GENERATED_FILES)
+ 
+-bin_SCRIPTS = $(SCRIPTS) $(GENERATED_FILES)
+-
+ EXTRA_DIST = $(SCRIPTS) $(TEMPLATE_FILES)
