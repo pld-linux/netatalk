@@ -165,9 +165,9 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/netatalk-config
 %attr(644,root,root) %{_libdir}/libatalk.a
-%attr(755,root,root) %{_libdir}/libatalk.la
+%{_libdir}/libatalk.la
 %attr(644,root,root) %{_libdir}/atalk/*.a
-%attr(755,root,root) %{_libdir}/atalk/*.la
+%{_libdir}/atalk/*.la
 %{_includedir}/atalk
 %{_includedir}/netatalk/*
 %{_aclocaldir}/*
