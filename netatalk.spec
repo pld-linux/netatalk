@@ -2,16 +2,19 @@ Summary:	AppleTalk networking programs
 Summary(pl):	Klient i serwer AppleTalk
 Summary(pt_BR):	Programas para rede AppleTalk
 Name:		netatalk
-Version:	1.5.2
+Version:	1.5.3.1
 Release:	1
 License:	BSD
 Group:		Daemons
-Source0:	ftp://download.sourceforge.net/pub/sourceforge/netatalk/%{name}-%{version}.tar.gz
+Source0:	ftp://download.sourceforge.net/pub/sourceforge/netatalk/%{name}-%{version}.tar.bz2
 Source1:	%{name}.init
 Source2:	%{name}.pamd
 Source3:	%{name}.sysconfig
 Source4:	ICDumpSuffixMap
 Patch0:		%{name}-makefile-am.patch
+Patch1:		%{name}-1.5.3.1-configure.patch
+Patch2:		%{name}-1.5.3.1-msgdir.patch
+Patch3:		%{name}-1.5.3.1-nlsdir.patch
 URL:		http://www.umich.edu/~rsug/netatalk/
 Prereq:		/sbin/chkconfig
 BuildRequires:	autoconf
@@ -64,6 +67,9 @@ aplicativos baseados no protocolo AppleTalk.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 rm -f missing
@@ -110,7 +116,7 @@ install %{SOURCE4} .
 
 > $RPM_BUILD_ROOT/etc/security/blacklist.netatalk
 
-gzip -9nf BUGS CHANGES COPYRIGHT ChangeLog ICDu* \
+gzip -9nf CHANGES COPYRIGHT ChangeLog ICDu* \
 	NEWS README TODO VERSION services.atalk doc/*
 
 # to avoid conflict with glibc-devel
