@@ -40,11 +40,11 @@ case "$1" in
 			daemon atalkd
 			nbprgstr -p 4 "${ATALK_NAME}:Workstation"
 			nbprgstr -p 4 "${ATALK_NAME}:netatalk"
-			if [ ${PAPD_RUN} = yes ] ; then
+			if [ ${PAPD_RUN} = yes ]; then
 				msg_starting papd
 				daemon papd
 			fi
-			if [ ${AFPD_RUN} = yes ] ; then
+			if [ ${AFPD_RUN} = yes ]; then
 				msg_starting afpd
 				daemon afpd -c ${AFPD_MAX_CLIENTS} -n ${ATALK_NAME}
 			fi
@@ -69,7 +69,7 @@ case "$1" in
 		fi
 		# Attempt to zap the module, so that we can restart the
 		# Appletalk daemons cleanly
-		if [ -e /proc/modules ] && [ -x /sbin/modprobe ] ; then
+		if [ -e /proc/modules ] && [ -x /sbin/modprobe ]; then
 			modprobe -r appletalk
 		fi
 		rm -f /var/lock/subsys/atalk >/dev/null 2>&1
