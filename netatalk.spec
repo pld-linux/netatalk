@@ -8,7 +8,7 @@ Release:	1
 Epoch:		2
 License:	BSD
 Group:		Daemons
-Source0:	ftp://download.sourceforge.net/pub/sourceforge/netatalk/%{name}-%{version}.tar.bz2
+Source0:	http://dl.sourceforge.net/netatalk/%{name}-%{version}.tar.bz2
 Source1:	%{name}.init
 Source2:	%{name}.pamd
 Source3:	%{name}.sysconfig
