@@ -78,7 +78,7 @@ aplicativos baseados no protocolo AppleTalk.
 %build
 rm -f missing
 gettextize --copy --force
-libtoolize --copy --force
+%{__libtoolize}
 aclocal -I macros
 %{__autoconf}
 %{__automake}
