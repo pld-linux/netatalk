@@ -2,8 +2,8 @@ Summary:	AppleTalk networking programs
 Summary(pl):	Klient i serwer AppleTalk
 Summary(pt_BR):	Programas para rede AppleTalk
 Name:		netatalk
-Version:	1.5.3.1
-Release:	5
+Version:	1.5.5
+Release:	1
 Epoch:		2
 License:	BSD
 Group:		Daemons
@@ -13,10 +13,8 @@ Source2:	%{name}.pamd
 Source3:	%{name}.sysconfig
 Source4:	ICDumpSuffixMap
 Patch0:		%{name}-makefile-am.patch
-Patch1:		%{name}-1.5.3.1-configure.patch
-Patch2:		%{name}-1.5.3.1-msgdir.patch
-Patch3:		%{name}-1.5.3.1-nlsdir.patch
-Patch4:		%{name}-no_libnsl.patch
+Patch1:		%{name}-1.5.3.1-msgdir.patch
+Patch2:		%{name}-no_libnsl.patch
 URL:		http://www.umich.edu/~rsug/netatalk/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -72,8 +70,6 @@ aplicativos baseados no protocolo AppleTalk.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 %build
 rm -f missing
