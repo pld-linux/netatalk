@@ -46,7 +46,7 @@ case "$1" in
   start)
 	if [ -f /var/lock/subsys/atalk ]; then
 		msg_already_running "AppleTalk"
-		exit 1
+		exit 0
 	fi
 
 	if is_no "${ATALKD_RUN}"; then 
@@ -74,22 +74,21 @@ case "$1" in
 	fi
 
 	if [ "$RETVAL_ATALKD" -eq 0 -a "$RETVAL_PAPD" -eq 0 -a "$RETVAL_AFPD" -eq 0 ]; then
-	RETVAL=0
-	touch /var/lock/subsys/atalk || RETVAL=1
+		RETVAL=0
+		touch /var/lock/subsys/atalk || RETVAL=1
 	fi
 	;;
 
   stop)
 	if [ ! -f /var/lock/subsys/atalk ]; then
 		msg_not_running "AppleTalk"
-		exit 1
+		exit 0
 	fi
 
 	if is_no "${ATALKD_RUN}"; then
 		if is_yes "${PAPD_RUN}"; then
 			msg_stopping "papd"
 			killproc papd
-			RETVAL_PAPD=$?
 		fi
 
 		if is_yes "${TIMELORD_RUN}"; then
@@ -102,32 +101,28 @@ case "$1" in
 
 		msg_stopping "atalk"
 		killproc atalkd
-		RETVAL_ATALKD=$?
 	fi
 
 	if [ is_yes "${AFPD_RUN}"; then
 		msg_stopping "afpd"
 		killproc afpd
-		RETVAL_AFPD=$?
 	fi
 
-	if [ "$RETVAL_ATALKD" -eq 0 -a "$RETVAL_PAPD" -eq 0 -a "$RETVAL_AFPD" -eq 0 ]; then
-		RETVAL=0
-		rm -f /var/lock/subsys/atalk || RETVAL=1
-	fi
+	RETVAL=0
+	rm -f /var/lock/subsys/atalk >/dev/null 2>&1
 	;;
-  restart|reload)
+  restart|force-reload)
 	$0 stop
 	$0 start
-	RETVAL=$?
+	exit $?
 	;;
   status)
 	status atalkd
-	RETVAL=$?
+	exit $?
 	;;
   *)
-	msg_usage "$0 {start|stop|restart|reload|status}"
-	exit 1
+	msg_usage "$0 {start|stop|restart|force-reload|status}"
+	exit 3
 esac
 
 exit $RETVAL
