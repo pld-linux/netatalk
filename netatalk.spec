@@ -22,7 +22,7 @@ BuildRequires:	cracklib-devel
 BuildRequires:	db3-devel
 BuildRequires:	gettext-devel
 BuildRequires:	libtool
-BuildRequires:	openssl-devel
+BuildRequires:	openssl-devel >= 0.9.7
 BuildRequires:	pam-devel
 Requires(post,preun):/sbin/chkconfig
 Requires(post):	/sbin/ldconfig
