@@ -2,7 +2,7 @@ Summary:	AppleTalk networking programs
 Summary(pl):	Klient i serwer AppleTalk
 Summary(pt_BR):	Programas para rede AppleTalk
 Name:		netatalk
-Version:	1.5rc2
+Version:	1.5.0
 Release:	1
 License:	BSD
 Group:		Daemons
