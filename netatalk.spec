@@ -1,26 +1,33 @@
 Summary:	AppleTalk networking programs
 Summary(pl):	Klient i serwer AppleTalk
 Name:		netatalk
-Version:	1.4b2+asun2.1.3
-Release:	15
+Version:	1.5pre8
+Release:	1
 License:	BSD
 Group:		Daemons
 Group(de):	Server
 Group(pl):	Serwery
-Source0:	ftp://download.sourceforge.net/pub/sourceforge/netatalk/%{name}-%{version}.tar.gz
-Source1:	atalk.init
-Source2:	%{name}.config
-Source3:	AppleVolumes.system
+Source0:	ftp://download.sourceforge.net/pub/sourceforge/netatalk/%{name}-%{version}.tar.bz2
+Source1:	%{name}.init
+Source2:	%{name}.pamd
+Source3:	%{name}.sysconfig
+#Source3:	AppleVolumes.system
 Source4:	ICDumpSuffixMap
-Patch0:		%{name}-asun.fsstnd.patch
-Patch1:		%{name}-asun.install.patch
-Patch2:		%{name}-asun.librpcsvc.patch
-Patch3:		%{name}-asun.nbp.patch
-Patch4:		%{name}-pam.patch
-#Patch5:	linux-2.4-quota.patch
+#Patch0:		%{name}-asun.fsstnd.patch
+#Patch1:		%{name}-asun.install.patch
+#Patch2:		%{name}-asun.librpcsvc.patch
+#Patch3:		%{name}-asun.nbp.patch
+#Patch4:		%{name}-pam.patch
+Patch0:         %{name}-configure.patch
 URL:		http://www.umich.edu/~rsug/netatalk/
 Prereq:		/sbin/chkconfig
 BuildRequires:	pam-devel
+BuildRequires:	openssl-devel
+BuildRequires:	db3-devel
+BuildRequires:	cracklib-devel
+BuildRequires:	automake
+BuildRequires:	autoconf
+BuildRequires:	libtool
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define _initdir /etc/rc.d/init.d 
@@ -56,62 +63,57 @@ AppleTalk
 
 %prep
 %setup -q
-%patch -p1 -b .fsstnd
-%patch1 -p1 -b .install
-#if [ ! -e "/usr/lib/librpcsvc.a" ]; then
-%patch2 -p1 -b .rpcsvc
-#fi
-%patch3 -p1 -b .nbp
-%patch4 -p1 -b .pam
-#%patch5 -p1 -b .redhat
+%patch0 -p1
 
 %build
-rm -f "etc/papd/.#magics.c"
-rm -f "etc/.#diff"
+rm -f missing
+gettextize --copy --force
+libtoolize --copy --force
+aclocal
+autoconf
+automake -a -c
+autoheader
+%configure \
+	--with-config-dir=%{_sysconfdir}/atalk \
+	--with-pkgconfdir=%{_sysconfdir}/atalk \
+	--with-uams-path=%{_libdir}/atalk \
+	--with-msg-dir=%{_sysconfdir}/atalk/msg \
+	--enable-lastdid \
+	--enable-timelord \
+        --with-cracklib \
+        --with-pam \
+        --with-shadow \
+        --with-tcp-wrappers \
+        --with-ssl \
+        --enable-pgp-uam
 
-#%ifarch alpha 
-#	make 
-#%else
-#	make OPTOPTS="$RPM_OPT_FLAGS -fomit-frame-pointer -fsigned-char"
-#%endif
-%{__make} OPTOPTS=""
+
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/{rc.d/init.d,pam.d,security,sysconfig,atalk/uams} \
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/{rc.d/init.d,pam.d,security,sysconfig,atalk/msg,atalk/nls} \
 	$RPM_BUILD_ROOT%{_libdir}/atalk \
 	$RPM_BUILD_ROOT%{_mandir}/{man1,man3,man4,man8}                         
 
 
-%{__make} install INSTALL_PREFIX=$RPM_BUILD_ROOT MANDIR=$RPM_BUILD_ROOT%{_mandir}
+%{__make} install DESTDIR=$RPM_BUILD_ROOT MANDIR=$RPM_BUILD_ROOT%{_mandir}
 
-(
-  cd $RPM_BUILD_ROOT%{_libdir}/atalk/filters/
-  for i in * ; do
-ln -sf %{_sbindir}/psf $i
-  done
-)
-
-install config/AppleVolumes.default $RPM_BUILD_ROOT%{_sysconfdir}/atalk/AppleVolumes.default
-install config/afpd.conf $RPM_BUILD_ROOT%{_sysconfdir}/atalk/afpd.conf
-install config/atalkd.conf $RPM_BUILD_ROOT%{_sysconfdir}/atalk/atalkd.conf
-install config/papd.conf $RPM_BUILD_ROOT%{_sysconfdir}/atalk/papd.conf
-install  config/netatalk.pamd $RPM_BUILD_ROOT/etc/pam.d/netatalk
+install etc/afpd/nls/{makecode,parsecode} $RPM_BUILD_ROOT/%{_bindir}
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_initdir}/atalk
-install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/netatalk
-install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/atalk/AppleVolumes.system
-
-install ${RPM_SOURCE_DIR}/ICDumpSuffixMap .
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/pam.d/netatalk
+install %{SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/netatalk
+install %{SOURCE4} .
 
 > $RPM_BUILD_ROOT/etc/security/blacklist.netatalk
 
-mv -f etc/afpd/uam/README README.uam
-
 gzip -9nf BUGS CHANGES COPYRIGHT ChangeLog ICDu* \
-	README* TODO VERSION services.atalk INSTALL/*
+	NEWS README TODO VERSION services.atalk doc/*
 
+# to avoid conflict with glibc-devel
+rm -f $RPM_BUILD_ROOT%{_includedir}/atalk/at.h 
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -175,10 +177,10 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc {BUGS,CHANGES,COPYRIGHT,ChangeLog,README*,TODO,VERSION,services.atalk,ICDumpSuffixMap}.gz INSTALL 
+%doc {BUGS,CHANGES,COPYRIGHT,ChangeLog,README,TODO,VERSION,services.atalk,ICDumpSuffixMap}.gz doc/*
 
-%dir %{_sysconfdir}/atalk
-%dir %{_sysconfdir}/atalk/uams
+%dir %{_sysconfdir}/atalk/msg
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/nls/*
 %config(noreplace) %verify(not size mtime md5)%{_sysconfdir}/atalk/AppleVolumes.default
 %config(noreplace) %verify(not size mtime md5)%{_sysconfdir}/atalk/AppleVolumes.system
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/netatalk
@@ -190,36 +192,16 @@ fi
 %attr(640,root,root) %config %verify(not size mtime md5) /etc/pam.d/netatalk
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/security/blacklist.netatalk
 
-%attr(755,root,root) %{_sbindir}/afpd
-%attr(755,root,root) %{_sbindir}/atalkd
-%attr(755,root,root) %{_sbindir}/etc2ps
-%attr(755,root,root) %{_sbindir}/papd
-%attr(755,root,root) %{_sbindir}/psa
-%attr(755,root,root) %{_sbindir}/psf
-
-%attr(755,root,root) %{_bindir}/adv1tov2
-%attr(755,root,root) %{_bindir}/aecho
-%attr(755,root,root) %{_bindir}/getzones
-%attr(755,root,root) %{_bindir}/megatron
-%attr(755,root,root) %{_bindir}/nbplkup
-%attr(755,root,root) %{_bindir}/nbprgstr
-%attr(755,root,root) %{_bindir}/nbpunrgstr
-%attr(755,root,root) %{_bindir}/pap
-%attr(755,root,root) %{_bindir}/papstatus
-%attr(755,root,root) %{_bindir}/psorder
-%attr(755,root,root) %{_bindir}/hqx2bin
-%attr(755,root,root) %{_bindir}/macbinary
-%attr(755,root,root) %{_bindir}/single2bin
-%attr(755,root,root) %{_bindir}/unbin
-%attr(755,root,root) %{_bindir}/unhex
-%attr(755,root,root) %{_bindir}/unsingle
-
-%dir %{_libdir}/atalk/
+%attr(755,root,root) %{_sbindir}/*
+%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_libdir}/atalk/*.so
 %{_mandir}/*/*
 
 %files devel
 %defattr(644,root,root,755)
-%{_libdir}/libatalk.a
-%{_libdir}/libatalk_p.a
+%attr(644,root,root) %{_libdir}/libatalk.a
+%attr(755,root,root) %{_libdir}/libatalk.la
+%attr(644,root,root) %{_libdir}/atalk/*.a
+%attr(755,root,root) %{_libdir}/atalk/*.la
 %{_includedir}/atalk
 %{_includedir}/netatalk
