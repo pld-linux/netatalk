@@ -11,13 +11,7 @@ Source0:	ftp://download.sourceforge.net/pub/sourceforge/netatalk/%{name}-%{versi
 Source1:	%{name}.init
 Source2:	%{name}.pamd
 Source3:	%{name}.sysconfig
-#Source3:	AppleVolumes.system
 Source4:	ICDumpSuffixMap
-#Patch0:		%{name}-asun.fsstnd.patch
-#Patch1:		%{name}-asun.install.patch
-#Patch2:		%{name}-asun.librpcsvc.patch
-#Patch3:		%{name}-asun.nbp.patch
-#Patch4:		%{name}-pam.patch
 Patch0:         %{name}-configure.patch
 URL:		http://www.umich.edu/~rsug/netatalk/
 Prereq:		/sbin/chkconfig
