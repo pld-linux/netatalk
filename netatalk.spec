@@ -24,7 +24,7 @@ BuildRequires:	gettext-devel
 BuildRequires:	libtool
 BuildRequires:	openssl-devel >= 0.9.7
 BuildRequires:	pam-devel
-Requires(post,preun):/sbin/chkconfig
+Requires(post,preun):	/sbin/chkconfig
 Requires(post):	/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -101,7 +101,7 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}/{rc.d/init.d,pam.d,security,sysconfig,a
 	MANDIR=$RPM_BUILD_ROOT%{_mandir} \
 	m4datadir=%{_aclocaldir}
 
-install etc/afpd/nls/{makecode,parsecode} $RPM_BUILD_ROOT/%{_bindir}
+install etc/afpd/nls/{makecode,parsecode} $RPM_BUILD_ROOT%{_bindir}
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_initrddir}/atalk
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/pam.d/netatalk
@@ -134,12 +134,11 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc ChangeLog ICDu* NEWS README TODO VERSION
-%doc services.atalk doc
+%doc ChangeLog ICDu* NEWS README TODO VERSION services.atalk doc
 %dir %{_sysconfdir}/atalk/msg
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/nls/*
-%config(noreplace) %verify(not size mtime md5)%{_sysconfdir}/atalk/AppleVolumes.default
-%config(noreplace) %verify(not size mtime md5)%{_sysconfdir}/atalk/AppleVolumes.system
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/AppleVolumes.default
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/AppleVolumes.system
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/netatalk
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/afpd.conf
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/atalkd.conf
@@ -161,7 +160,7 @@ fi
 %attr(755,root,root) %{_bindir}/netatalk-config
 %attr(644,root,root) %{_libdir}/libatalk.a
 %{_libdir}/libatalk.la
-%attr(644,root,root) %{_libdir}/atalk/*.a
+%{_libdir}/atalk/*.a
 %{_libdir}/atalk/*.la
 %{_includedir}/atalk
 %{_includedir}/netatalk/*
