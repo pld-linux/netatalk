@@ -26,7 +26,6 @@ BuildRequires:	openssl-devel
 BuildRequires:	pam-devel
 Requires(post,preun):/sbin/chkconfig
 Requires(post):	/sbin/ldconfig
-Requires:	rc-scripts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_initdir	/etc/rc.d/init.d
@@ -116,9 +115,6 @@ install %{SOURCE4} .
 
 > $RPM_BUILD_ROOT/etc/security/blacklist.netatalk
 
-gzip -9nf CHANGES COPYRIGHT ChangeLog ICDu* \
-	NEWS README TODO VERSION services.atalk doc/*
-
 # to avoid conflict with glibc-devel
 rm -f $RPM_BUILD_ROOT%{_includedir}/atalk/at.h
 rm -f $RPM_BUILD_ROOT%{_includedir}/netatalk/at.h
@@ -143,7 +139,8 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz doc/*
+%doc CHANGES ChangeLog ICDu* NEWS README TODO VERSION
+%doc services.atalk doc
 %dir %{_sysconfdir}/atalk/msg
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/nls/*
 %config(noreplace) %verify(not size mtime md5)%{_sysconfdir}/atalk/AppleVolumes.default
