@@ -49,7 +49,7 @@ Summary:	Headers and static libraries for Appletalk development
 Summary(pl):	Pliki nag³ówkoew i biblioteki statyczne Appletalk
 Summary(pt_BR):	Arquivos de inclusão e bibliotecas para o desenvolvimento de aplicativos baseados no protocolo AppleTalk
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{epoch}:%{version}
 
 %description devel
 This packge contains the header files, and static libraries for
