@@ -3,7 +3,7 @@ Summary(pl):	Klient i serwer AppleTalk
 Summary(pt_BR):	Programas para rede AppleTalk
 Name:		netatalk
 Version:	1.5.3.1
-Release:	2
+Release:	3
 Epoch:		2
 License:	BSD
 Group:		Daemons
@@ -17,7 +17,8 @@ Patch1:		%{name}-1.5.3.1-configure.patch
 Patch2:		%{name}-1.5.3.1-msgdir.patch
 Patch3:		%{name}-1.5.3.1-nlsdir.patch
 URL:		http://www.umich.edu/~rsug/netatalk/
-Prereq:		/sbin/chkconfig
+Requires(post,preun):	/sbin/chkconfig
+Requires(post):	/sbin/ldconfig
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	cracklib-devel
@@ -128,16 +129,19 @@ rm -f $RPM_BUILD_ROOT%{_includedir}/netatalk/at.h
 rm -rf $RPM_BUILD_ROOT
 
 %post
+/sbin/ldconfig
 /sbin/chkconfig --add atalk
-ldconfig
-if [ "$1" = 1 ] ; then
+if [ "$1" = "1" ] ; then
 	echo "Run \"%{_initdir}/atalk start\" to start netatalk." >&2
 fi
 
 %preun
 if [ "$1" = "0" ]; then
 	%{_initdir}/atalk stop >&2
+	/sbin/chkconfig --del atalk
 fi
+
+%postun	-p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
@@ -156,7 +160,9 @@ fi
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/security/blacklist.netatalk
 
 %attr(755,root,root) %{_sbindir}/*
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/[^n]*
+%attr(755,root,root) %{_bindir}/n[^e]*
+%attr(755,root,root) %{_bindir}/netatalkshorternamelinks.pl
 %attr(755,root,root) %{_libdir}/atalk/*.so
 %{_mandir}/*/*
 
@@ -168,5 +174,5 @@ fi
 %attr(644,root,root) %{_libdir}/atalk/*.a
 %attr(755,root,root) %{_libdir}/atalk/*.la
 %{_includedir}/atalk
-%{_includedir}/netatalk
+%{_includedir}/netatalk/*
 %{_aclocaldir}/*
