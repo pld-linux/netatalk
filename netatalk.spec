@@ -3,7 +3,7 @@ Summary(pl):	Klient i serwer AppleTalk
 Summary(pt_BR):	Programas para rede AppleTalk
 Name:		netatalk
 Version:	1.5pre8
-Release:	2
+Release:	3
 License:	BSD
 Group:		Daemons
 Group(de):	Server
@@ -195,7 +195,7 @@ fi
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/papd.conf
 
 %attr(755,root,root) %config %{_initdir}/atalk
-%attr(640,root,root) %config %verify(not size mtime md5) /etc/pam.d/netatalk
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/pam.d/netatalk
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/security/blacklist.netatalk
 
 %attr(755,root,root) %{_sbindir}/*
