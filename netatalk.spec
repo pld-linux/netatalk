@@ -3,13 +3,13 @@ Summary(pl):	Klient i serwer AppleTalk
 Summary(pt_BR):	Programas para rede AppleTalk
 Summary(zh_CN):	Appletalk 和 Appleshare/IP 服务工具
 Name:		netatalk
-Version:	1.6.4
-Release:	2
+Version:	2.0.1
+Release:	1
 Epoch:		2
 License:	BSD
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/netatalk/%{name}-%{version}.tar.bz2
-# Source0-md5:	8bed0582d51deef7a31da1b6ae5df2e6
+# Source0-md5:	a0414822f2ba61c91dfaa5649ad3e9e4
 Source1:	%{name}.init
 Source2:	%{name}.pamd
 Source3:	%{name}.sysconfig
@@ -93,7 +93,7 @@ rm -f missing
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/{rc.d/init.d,pam.d,security,sysconfig,atalk/msg,atalk/nls} \
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/{rc.d/init.d,pam.d,security,sysconfig,atalk/msg} \
 	$RPM_BUILD_ROOT%{_libdir}/atalk \
 	$RPM_BUILD_ROOT%{_mandir}/{man1,man3,man4,man8}
 
@@ -101,8 +101,6 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}/{rc.d/init.d,pam.d,security,sysconfig,a
 	DESTDIR=$RPM_BUILD_ROOT \
 	MANDIR=$RPM_BUILD_ROOT%{_mandir} \
 	m4datadir=%{_aclocaldir}
-
-install etc/afpd/nls/{makecode,parsecode} $RPM_BUILD_ROOT%{_bindir}
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_initrddir}/atalk
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/pam.d/netatalk
@@ -135,9 +133,8 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc ChangeLog ICDu* NEWS README TODO VERSION services.atalk doc
+%doc ICDu* NEWS README TODO VERSION services.atalk doc
 %dir %{_sysconfdir}/atalk/msg
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/nls/*
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/AppleVolumes.default
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/AppleVolumes.system
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/netatalk
