@@ -23,7 +23,7 @@ BuildRequires:	openssl-devel
 BuildRequires:	pam-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_initdir	/etc/rc.d/init.d 
+%define		_initdir	/etc/rc.d/init.d
 
 %description
 This package enables Linux to talk to Macintosh computers via the
@@ -92,7 +92,7 @@ rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/{rc.d/init.d,pam.d,security,sysconfig,atalk/msg,atalk/nls} \
 	$RPM_BUILD_ROOT%{_libdir}/atalk \
-	$RPM_BUILD_ROOT%{_mandir}/{man1,man3,man4,man8}                         
+	$RPM_BUILD_ROOT%{_mandir}/{man1,man3,man4,man8}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
@@ -112,7 +112,7 @@ gzip -9nf BUGS CHANGES COPYRIGHT ChangeLog ICDu* \
 	NEWS README TODO VERSION services.atalk doc/*
 
 # to avoid conflict with glibc-devel
-rm -f $RPM_BUILD_ROOT%{_includedir}/atalk/at.h 
+rm -f $RPM_BUILD_ROOT%{_includedir}/atalk/at.h
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -123,7 +123,7 @@ ldconfig
 if [ "$1" = 1 ] ; then
 	echo "Run \"%{_initdir}/atalk start\" to start netatalk." >&2
 fi
-	
+
 %preun
 if [ "$1" = "0" ]; then
 	%{_initdir}/atalk stop >&2
