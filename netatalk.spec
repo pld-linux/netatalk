@@ -1,6 +1,7 @@
 Summary:	AppleTalk networking programs
 Summary(pl):	Klient i serwer AppleTalk
 Summary(pt_BR):	Programas para rede AppleTalk
+Summary(zh_CN):	Appletalk 和 Appleshare/IP 服务工具
 Name:		netatalk
 Version:	1.5.5
 Release:	1
