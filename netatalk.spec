@@ -68,7 +68,6 @@ aplicativos baseados no protocolo AppleTalk.
 
 %build
 rm -f missing
-%{__gettextize}
 %{__libtoolize}
 %{__aclocal} -I macros
 %{__autoconf}
