@@ -3,7 +3,7 @@ Summary(pl):	Klient i serwer AppleTalk
 Summary(pt_BR):	Programas para rede AppleTalk
 Summary(zh_CN):	Appletalk 和 Appleshare/IP 服务工具
 Name:		netatalk
-Version:	1.5.5
+Version:	1.6.0
 Release:	1
 Epoch:		2
 License:	BSD
@@ -13,9 +13,8 @@ Source1:	%{name}.init
 Source2:	%{name}.pamd
 Source3:	%{name}.sysconfig
 Source4:	ICDumpSuffixMap
-Patch0:		%{name}-makefile-am.patch
-Patch1:		%{name}-1.5.3.1-msgdir.patch
-Patch2:		%{name}-no_libnsl.patch
+Patch0:		%{name}-no_libnsl.patch
+Patch1:		%{name}-openssl.patch
 URL:		http://www.umich.edu/~rsug/netatalk/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -69,7 +68,6 @@ aplicativos baseados no protocolo AppleTalk.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 rm -f missing
@@ -140,7 +138,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGES ChangeLog ICDu* NEWS README TODO VERSION
+%doc ChangeLog ICDu* NEWS README TODO VERSION
 %doc services.atalk doc
 %dir %{_sysconfdir}/atalk/msg
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/nls/*
