@@ -16,18 +16,18 @@ Patch0:		%{name}-makefile-am.patch
 Patch1:		%{name}-1.5.3.1-configure.patch
 Patch2:		%{name}-1.5.3.1-msgdir.patch
 Patch3:		%{name}-1.5.3.1-nlsdir.patch
+Patch4:		%{name}-no_libnsl.patch
 URL:		http://www.umich.edu/~rsug/netatalk/
-Requires(post,preun):	/sbin/chkconfig
-Requires(post):	/sbin/ldconfig
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	cracklib-devel
 BuildRequires:	db3-devel
+BuildRequires:	gettext-devel
 BuildRequires:	libtool
 BuildRequires:	openssl-devel
 BuildRequires:	pam-devel
-BuildRequires:	gettext-devel
-BuildRequires:	glibc-static
+Requires(post,preun):/sbin/chkconfig
+Requires(post):	/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_initdir	/etc/rc.d/init.d
@@ -72,6 +72,7 @@ aplicativos baseados no protocolo AppleTalk.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 rm -f missing
