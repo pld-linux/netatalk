@@ -1,0 +1,54 @@
+--- netatalk-1.5pre8/configure.in.orig	Wed Oct 10 15:13:02 2001
++++ netatalk-1.5pre8/configure.in	Wed Oct 10 15:18:01 2001
+@@ -363,6 +363,7 @@
+ 
+ 	AC_DEFINE(USE_PAM)
+ 	use_pam_so=yes
++	compile_pam=yes
+ fi
+ 
+ shadowpw=no
+diff -uNr netatalk-1.5pre8.orig/config/Makefile.am netatalk-1.5pre8/config/Makefile.am
+--- netatalk-1.5pre8.orig/config/Makefile.am	Thu Oct  4 22:31:59 2001
++++ netatalk-1.5pre8/config/Makefile.am	Wed Oct 10 16:21:37 2001
+@@ -10,7 +10,7 @@
+ 
+ EXTRA_DIST = $(CONFFILES) $(TMPLFILES) $(PAMFILES)
+ 
+-CLEANFILES += $(GENFILES)
++CLEANFILES = $(CLEANFILES) $(GENFILES)
+ 
+ pkgconf_DATA = @OVERWRITE@
+ pkgconfdir = @PKGCONFDIR@
+diff -uNr netatalk-1.5pre8.orig/etc/psf/Makefile.am netatalk-1.5pre8/etc/psf/Makefile.am
+--- netatalk-1.5pre8.orig/etc/psf/Makefile.am	Thu Jun  7 18:01:49 2001
++++ netatalk-1.5pre8/etc/psf/Makefile.am	Wed Oct 10 16:21:58 2001
+@@ -35,5 +35,4 @@
+ # cleanup
+ #
+ 
+-CLEANFILES += $(psf_LINKS)
+-
++CLEANFILES = $(CLEANFILES) $(psf_LINKS)
+diff -uNr netatalk-1.5pre8.orig/man/man5/Makefile.am netatalk-1.5pre8/man/man5/Makefile.am
+--- netatalk-1.5pre8.orig/man/man5/Makefile.am	Thu Aug 30 21:02:12 2001
++++ netatalk-1.5pre8/man/man5/Makefile.am	Wed Oct 10 16:22:37 2001
+@@ -16,6 +16,6 @@
+ 
+ TEMPLATE_FILES = $(foreach f,$(man_MANS),$(f).tmpl)
+ 
+-CLEANFILES += $(man_MANS)
++CLEANFILES = $(CLEANFILES) $(man_MANS)
+ 
+ EXTRA_DIST = $(TEMPLATE_FILES) 
+diff -uNr netatalk-1.5pre8.orig/man/man8/Makefile.am netatalk-1.5pre8/man/man8/Makefile.am
+--- netatalk-1.5pre8.orig/man/man8/Makefile.am	Thu Aug 30 21:02:12 2001
++++ netatalk-1.5pre8/man/man8/Makefile.am	Wed Oct 10 16:22:57 2001
+@@ -17,6 +17,6 @@
+ 
+ man_MANS = $(GENERATED_MANS) $(NONGENERATED_MANS)
+ 
+-CLEANFILES += $(GENERATED_MANS)
++CLEANFILES = $(CLEANFILES) $(GENERATED_MANS)
+ 
+ EXTRA_DIST = $(TEMPLATE_FILES) $(NONGENERATED_MANS)
