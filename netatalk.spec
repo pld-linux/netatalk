@@ -26,6 +26,7 @@ BuildRequires:	openssl-devel >= 0.9.7
 BuildRequires:	pam-devel
 Requires(post,preun):	/sbin/chkconfig
 Requires(post):	/sbin/ldconfig
+Requires:	pam >= 0.77.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
