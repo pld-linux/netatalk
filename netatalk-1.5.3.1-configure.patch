@@ -1,0 +1,33 @@
+--- netatalk-1.5.3.1/configure.orig	Sat Mar 30 13:52:01 2002
++++ netatalk-1.5.3.1/configure	Sat Mar 30 13:54:07 2002
+@@ -8274,7 +8274,7 @@
+   withval="$with_nls_dir"
+   
+ 			if test "x$withval" != "x"; then
+-				NLSDIR = "$withval"
++				NLSDIR="$withval"
+ 			fi
+ 		
+ 	
+@@ -8595,12 +8595,11 @@
+ #define SERVERTEXT "$msg_dir"
+ EOF
+ 
+-		SERVERTEXT="$msg_dir"
+-		s%@SERVERTEXT@%$SERVERTEXT%g
+ 
+ 
+ fi
+ 
++SERVERTEXT="$msg_dir"
+ 
+ 
+ 
+@@ -10013,6 +10012,7 @@
+ s%@AFS_CFLAGS@%$AFS_CFLAGS%g
+ s%@PKGCONFDIR@%$PKGCONFDIR%g
+ s%@NLSDIR@%$NLSDIR%g
++s%@SERVERTEXT@%$SERVERTEXT%g
+ s%@COMPILE_CNID_TRUE@%$COMPILE_CNID_TRUE%g
+ s%@COMPILE_CNID_FALSE@%$COMPILE_CNID_FALSE%g
+ s%@DB3_CFLAGS@%$DB3_CFLAGS%g
