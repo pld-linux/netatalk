@@ -17,12 +17,19 @@
 . /etc/sysconfig/netatalk
 
 # Check that networking is up.
-if is_no "${NETWORKING}"; then
-	msg_Network_Down AppleTalk
-	exit 1
+if is_yes "${NETWORKING}"; then
+	if [ ! -f /var/lock/subsys/network ]; then
+		msg_network_down AppleTalk
+		exit 1
+	fi
+else
+	exit 0
 fi
+
 #check atalkd.conf exit
 #[ -f /etc/atalk/atalkd.conf ] || exit 0
+
+
 case "$1" in
   start) 
 	insmod -f /lib/modules/`uname -r`/misc/appletalk.o
