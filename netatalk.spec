@@ -25,7 +25,7 @@ BuildRequires:	openssl-devel
 BuildRequires:	pam-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define _initdir /etc/rc.d/init.d 
+%define		_initdir	/etc/rc.d/init.d 
 
 %description
 This package enables Linux to talk to Macintosh computers via the
@@ -60,11 +60,11 @@ Requires:	%{name} = %{version}
 This packge contains the header files, and static libraries for
 building Appletalk networking programs.
 
-%description -l pl devel
+%description devel -l pl
 Pakiet ten zawiera pliki nag³ówkowe i biblioteki statyczne serwera
 AppleTalk
 
-%description -l pt_BR devel
+%description devel -l pt_BR
 Arquivos de inclusão e bibliotecas para o desenvolvimento de
 aplicativos baseados no protocolo AppleTalk.
 
@@ -158,7 +158,7 @@ fi
 	
 %preun
 if [ "$1" = "0" ]; then
-/etc/rc.d/init.d/atalk stop >&2
+	/etc/rc.d/init.d/atalk stop >&2
 fi
 
 if [ "$1" = "0" ] ; then
@@ -179,7 +179,6 @@ warning:	You should remove the DDP services from /etc/service manually.
 _EOD3_
   fi
 fi
-
 
 %files
 %defattr(644,root,root,755)
