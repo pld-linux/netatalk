@@ -29,57 +29,70 @@ fi
 #check atalkd.conf exit
 #[ -f /etc/atalk/atalkd.conf ] || exit 0
 
-
+RETVAL=0
 case "$1" in
   start) 
-	insmod -f /lib/modules/`uname -r`/misc/appletalk.o
-	if [ ${ATALK_BGROUND} = yes ] ; then
-		nls -n "(backgrounded)"
-		daemon atalkd
-		nbprgstr -p 4 "${ATALK_NAME}:Workstation"
-		nbprgstr -p 4 "${ATALK_NAME}:netatalk"
-		if [ ${PAPD_RUN} = yes ] ; then
-			daemon papd
+	if [ ! -f /var/lock/subsys/atalk ]; then
+		_insmod single -f /lib/modules/`uname -r`/misc/appletalk.o
+		if [ "$ATALK_BGROUND" = yes ]; then
+#			nls -n "(backgrounded)"
+			msg_starting AppleTalk
+			daemon atalkd
+			nbprgstr -p 4 "${ATALK_NAME}:Workstation"
+			nbprgstr -p 4 "${ATALK_NAME}:netatalk"
+			if [ ${PAPD_RUN} = yes ] ; then
+				msg_starting papd
+				daemon papd
+			fi
+			if [ ${AFPD_RUN} = yes ] ; then
+				msg_starting afpd
+				daemon afpd -c ${AFPD_MAX_CLIENTS} -n ${ATALK_NAME}
+			fi
+			>/dev/null &
 		fi
-		if [ ${AFPD_RUN} = yes ] ; then
-			daemon afpd -c ${AFPD_MAX_CLIENTS} -n ${ATALK_NAME}
-		fi
-		>/dev/null &
-
+	else
+		msg_already_running AppleTalk
 	fi
-	msg_starting AppleTalk
 	touch /var/lock/subsys/atalk
 	;;
   stop) 
-	msg_stopping AppleTalk
-	killall afpd
-	killall papd
-	nbpunrgstr "${ATALK_NAME}:Workstation@*"
-	nbpunrgstr "${ATALK_NAME}:netatalk@*"
-	killall atalkd
-	# Attempt to zap the module, so that we can restart the
-	# Appletalk daemons cleanly
-	if [ -e /proc/modules ] && [ -x /sbin/modprobe ] ; then
-		modprobe -r appletalk
+	if [ -f /var/lock/subsys/atalk ]; then
+		if [ "$ATALK_BGROUND" = yes ]; then
+			msg_stopping afpd
+			killproc afpd
+			msg_stopping papd
+			killproc papd
+			nbpunrgstr "${ATALK_NAME}:Workstation@*"
+			nbpunrgstr "${ATALK_NAME}:netatalk@*"
+			msg_stopping AppleTalk
+			killproc atalkd
+		fi
+		# Attempt to zap the module, so that we can restart the
+		# Appletalk daemons cleanly
+		if [ -e /proc/modules ] && [ -x /sbin/modprobe ] ; then
+			modprobe -r appletalk
+		fi
 		rm -f /var/lock/subsys/atalk >/dev/null 2>&1
 	else
-		msg_stopping AppleTalk
-		exit 1
+		msg_not_running AppleTalk
 	fi
 	;;
-  restart|reload)
+  restart|force-reload)
 	$0 stop
 	$0 start
+	exit $?
 	;;
   status)
 	status atalkd
+	RETVAL=?
 	status papd
+	[ $RETVAL -eq 0 ] && RETVAL=?
 	status afpd
-	exit $?
+	[ $RETVAL -eq 0 ] && RETVAL=?
 	;;
   *)
-	msg_usage "$0 {start|stop|restart|reload|status}"
-	exit 1
+	msg_usage "$0 {start|stop|restart|force-reload|status}"
+	exit 3
 esac
 
-exit 0
+exit $RETVAL
