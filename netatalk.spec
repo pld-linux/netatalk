@@ -9,6 +9,7 @@ Epoch:		2
 License:	BSD
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/netatalk/%{name}-%{version}.tar.bz2
+# Source0-md5:	c141aa6712fed7a51b989b0aa80977c7
 Source1:	%{name}.init
 Source2:	%{name}.pamd
 Source3:	%{name}.sysconfig
