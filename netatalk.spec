@@ -21,8 +21,8 @@ BuildRequires:	db3-devel
 BuildRequires:	libtool
 BuildRequires:	openssl-devel
 BuildRequires:	pam-devel
-BuildRequires:  gettext-devel
-BuildRequires:  glibc-static
+BuildRequires:	gettext-devel
+BuildRequires:	glibc-static
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_initdir	/etc/rc.d/init.d
