@@ -76,7 +76,7 @@ aplicativos baseados no protocolo AppleTalk.
 rm -f missing
 gettextize --copy --force
 libtoolize --copy --force
-aclocal
+aclocal -I macros
 autoconf
 automake -a -c
 autoheader
@@ -103,8 +103,10 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}/{rc.d/init.d,pam.d,security,sysconfig,a
 	$RPM_BUILD_ROOT%{_libdir}/atalk \
 	$RPM_BUILD_ROOT%{_mandir}/{man1,man3,man4,man8}                         
 
-
-%{__make} install DESTDIR=$RPM_BUILD_ROOT MANDIR=$RPM_BUILD_ROOT%{_mandir}
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT \
+	MANDIR=$RPM_BUILD_ROOT%{_mandir} \
+	m4datadir=%{_aclocaldir}
 
 install etc/afpd/nls/{makecode,parsecode} $RPM_BUILD_ROOT/%{_bindir}
 
@@ -127,63 +129,18 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/chkconfig --add atalk
 ldconfig
-# Do only for the first install
 if [ "$1" = 1 ] ; then
-  # Add the ddp lines to /etc/services
-  if (grep '[0-9][0-9]*/ddp' /etc/services >/dev/null); then
-    cat <<'_EOD1_' >&2
-warning:	The DDP services appear to be present in /etc/services.
-warning:	Please check them against services.atalk in the documentation.
-_EOD1_
-    true
-  else
-    cat <<'_EOD2_' >>/etc/services
-# start of DDP services
-#
-# Everything between the 'start of DDP services' and 'end of DDP services'
-# lines will be automatically deleted when the netatalk package is removed.
-#
-rtmp		1/ddp		# Routing Table Maintenance Protocol
-nbp		2/ddp		# Name Binding Protocol
-echo		4/ddp		# AppleTalk Echo Protocol
-zip		6/ddp		# Zone Information Protocol
-
-afpovertcp	548/tcp		# AFP over TCP
-afpovertcp	548/udp
-# end of DDP services
-_EOD2_
-  fi
+	echo "Run \"%{_initdir}/atalk start\" to start netatalk." >&2
 fi
-    echo "Run \"/etc/rc.d/init.d/atalk start\" to start netatalk." >&2
 	
 %preun
 if [ "$1" = "0" ]; then
-	/etc/rc.d/init.d/atalk stop >&2
-fi
-
-if [ "$1" = "0" ] ; then
-  %{_initdir}/atalk stop > /dev/null 2>&1
-  /sbin/chkconfig --del atalk
-  # remove the ddp lines from /etc/services
-  if (grep '^# start of DDP services$' /etc/services >/dev/null && \
-      grep '^# end of DDP services$' /etc/services >/dev/null ); then
-    sed -e '/^# start of DDP services$/,/^# end of DDP services$/d' \
-	</etc/services >/tmp/services.tmp$$
-    cat /tmp/services.tmp$$ >/etc/services
-    rm -f /tmp/services.tmp$$
-  else
-    cat <<'_EOD3_' >&2
-warning:	Unable to find the lines `# start of DDP services' and
-warning:	`# end of DDP services' in the file /etc/services.
-warning:	You should remove the DDP services from /etc/service manually.
-_EOD3_
-  fi
+	%{_initdir}/atalk stop >&2
 fi
 
 %files
 %defattr(644,root,root,755)
-%doc {BUGS,CHANGES,COPYRIGHT,ChangeLog,README,TODO,VERSION,services.atalk,ICDumpSuffixMap}.gz doc/*
-
+%doc *.gz doc/*
 %dir %{_sysconfdir}/atalk/msg
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/nls/*
 %config(noreplace) %verify(not size mtime md5)%{_sysconfdir}/atalk/AppleVolumes.default
@@ -204,9 +161,11 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/netatalk-config
 %attr(644,root,root) %{_libdir}/libatalk.a
 %attr(755,root,root) %{_libdir}/libatalk.la
 %attr(644,root,root) %{_libdir}/atalk/*.a
 %attr(755,root,root) %{_libdir}/atalk/*.la
 %{_includedir}/atalk
 %{_includedir}/netatalk
+%{_aclocaldir}/*
