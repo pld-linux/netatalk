@@ -35,7 +35,7 @@ AppleTalk networking protocol. It includes a daemon to allow Linux to
 act as a file server over EtherTalk or IP for Mac's.
 
 %description -l pl
-Pakiet ten pozwala na komunikacje kumputerów OS Linux z Macintosh za
+Pakiet ten pozwala na komunikacjê komputerów OS Linux z Macintosh za
 po¶rednictwem protoko³u AppleTalk. Uczyni twojego Linux-a serwerem
 oraz klienta plików i wydruków zarówno za po¶rednictwem protoko³u
 EtherTalk jaki IP for Mac's.
@@ -57,7 +57,7 @@ building Appletalk networking programs.
 
 %description devel -l pl
 Pakiet ten zawiera pliki nag³ówkowe i biblioteki statyczne serwera
-AppleTalk
+AppleTalk.
 
 %description devel -l pt_BR
 Arquivos de inclusão e bibliotecas para o desenvolvimento de
