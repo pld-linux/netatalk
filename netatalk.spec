@@ -93,7 +93,7 @@ rm -f missing
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/{rc.d/init.d,pam.d,security,sysconfig,atalk/msg} \
+install -d $RPM_BUILD_ROOT/etc/{rc.d/init.d,pam.d,security,sysconfig,atalk/msg} \
 	$RPM_BUILD_ROOT%{_libdir}/atalk \
 	$RPM_BUILD_ROOT%{_mandir}/{man1,man3,man4,man8}
 
@@ -134,6 +134,7 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc ICDu* NEWS README TODO VERSION services.atalk doc
+%dir %{_sysconfdir}/atalk
 %dir %{_sysconfdir}/atalk/msg
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/AppleVolumes.default
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/AppleVolumes.system
@@ -150,6 +151,7 @@ fi
 %attr(755,root,root) %{_bindir}/[!n]*
 %attr(755,root,root) %{_bindir}/n[!e]*
 %attr(755,root,root) %{_bindir}/netatalkshorternamelinks.pl
+%dir %{_libdir}/atalk
 %attr(755,root,root) %{_libdir}/atalk/*.so
 %{_mandir}/*/*
 
