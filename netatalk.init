@@ -1,0 +1,142 @@
+#! /bin/sh
+# chkconfig:	345 91 35
+# description:	This package enables Linux to talk to Macintosh \
+#		computers via the AppleTalk networking protocol and \
+#		provides printer, file sharing, and AppleTalk routing \
+#		services. 
+#
+# AppleTalk daemons. Make sure not to start atalkd in the background:
+# its data structures must have time to stablize before running the
+# other processes.
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Quickly probe for appletalk and warn if we can't find it
+/sbin/modprobe appletalk || echo "[could not load appletalk module]"
+
+# Check for IP Encapsulation support
+#/sbin/modprobe ipddp || echo "[could not load IP encapsulation]"
+
+# read in netatalk configuration
+. /etc/sysconfig/netatalk
+
+# Check that networking is up.
+if is_yes "${NETWORKING}"; then
+	if [ ! -f /var/lock/subsys/network -a "$1" != stop -a "$1" != status ]; then
+		# nls "ERROR: Networking is down. %s can't be run." <service>
+		msg_network_down "AppleTalk"
+		exit 1
+	fi
+else
+	exit 0
+fi
+
+# initialize return values
+RETVAL=1
+RETVAL_ATALKD=0
+RETVAL_PAPD=0
+RETVAL_AFPD=0
+
+# startup code for everything
+case "$1" in
+  start)
+	if [ -f /var/lock/subsys/atalk ]; then
+		msg_already_running "AppleTalk"
+		exit 0
+	fi
+
+	if is_yes "${ATALKD_RUN}"; then 
+		msg_starting "atalkd"
+		daemon atalkd
+		RETVAL_ATALKD=$?
+		run_cmd -a "$(nls "Registering %s" "${ATALK_NAME}:Workstation${ATALK_ZONE}:")" "nbprgstr -p 4 \"${ATALK_NAME}:Workstation${ATALK_ZONE}\""
+		run_cmd -a "$(nls "Registering %s" "${ATALK_NAME}:netatalk${ATALK_ZONE}:")" "nbprgstr -p 4 \"${ATALK_NAME}:netatalk${ATALK_ZONE}\""
+		if is_yes "${PAPD_RUN}"; then
+			msg_starting "papd"
+			daemon papd
+			RETVAL_PAPD=$?
+		fi
+	fi
+
+	if is_yes "${TIMELORD_RUN}"; then
+		msg_starting "timelord"
+		daemon timelord
+	fi
+
+	if is_yes "${AFPD_RUN}"; then
+		msg_starting "afpd"
+		daemon afpd ${AFPD_UAMLIST} -g ${AFPD_GUEST} -c ${AFPD_MAX_CLIENTS} -n \"${ATALK_NAME}${ATALK_ZONE}\"
+		RETVAL_AFPD=$?
+	fi
+
+	if [ "$RETVAL_ATALKD" -eq 0 -a "$RETVAL_PAPD" -eq 0 -a "$RETVAL_AFPD" -eq 0 ]; then
+		RETVAL=0
+		touch /var/lock/subsys/atalk || RETVAL=1
+	fi
+	;;
+
+  stop)
+	if [ ! -f /var/lock/subsys/atalk ]; then
+		msg_not_running "AppleTalk"
+		exit 0
+	fi
+
+	if is_yes "${ATALKD_RUN}"; then
+		if is_yes "${PAPD_RUN}"; then
+			msg_stopping "papd"
+			killproc papd
+		fi
+
+		if is_yes "${TIMELORD_RUN}"; then
+			msg_stopping "timelord"
+			killproc timelord
+		fi
+
+		run_cmd "$(nls "Unregistering %s" "${ATALK_NAME}:Workstation${ATALK_ZONE}:")" "nbpunrgstr \"${ATALK_NAME}:Workstation${ATALK_ZONE}\""
+		run_cmd "$(nls "Unregistering %s" "${ATALK_NAME}:netatalk${ATALK_ZONE}:")" "nbpunrgstr \"${ATALK_NAME}:netatalk${ATALK_ZONE}\""
+
+		msg_stopping "atalk"
+		killproc atalkd
+	fi
+
+	if  is_yes "${AFPD_RUN}"; then
+		msg_stopping "afpd"
+		killproc afpd
+	fi
+
+	RETVAL=0
+	rm -f /var/lock/subsys/atalk >/dev/null 2>&1
+	;;
+  restart|force-reload)
+	$0 stop
+	$0 start
+	exit $?
+	;;
+  status)
+	if is_yes "${ATALKD_RUN}"; then 
+	    if is_yes "${PAPD_RUN}"; then
+		status papd
+	    fi
+	    
+	    if is_yes "${TIMELORD_RUN}"; then
+		status timelord
+	    fi
+	    
+	    if  is_yes "${AFPD_RUN}"; then
+		status afpd
+	    fi
+	    status atalkd
+	    nbplkup ${ATALK_NAME}
+	fi
+	exit $?
+	;;
+  *)
+	msg_usage "$0 {start|stop|restart|force-reload|status}"
+	exit 3
+esac
+
+exit $RETVAL
