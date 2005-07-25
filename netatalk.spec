@@ -15,7 +15,6 @@ Source2:	%{name}.pamd
 Source3:	%{name}.sysconfig
 Source4:	ICDumpSuffixMap
 Patch0:		%{name}-no_libnsl.patch
-Patch1:		%{name}-db.patch
 URL:		http://www.umich.edu/~rsug/netatalk/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -67,7 +66,6 @@ aplicativos baseados no protocolo AppleTalk.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 %build
 rm -f missing
