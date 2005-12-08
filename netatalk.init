@@ -3,7 +3,7 @@
 # description:	This package enables Linux to talk to Macintosh \
 #		computers via the AppleTalk networking protocol and \
 #		provides printer, file sharing, and AppleTalk routing \
-#		services. 
+#		services.
 #
 # AppleTalk daemons. Make sure not to start atalkd in the background:
 # its data structures must have time to stablize before running the
@@ -48,7 +48,7 @@ case "$1" in
 		exit 0
 	fi
 
-	if is_yes "${ATALKD_RUN}"; then 
+	if is_yes "${ATALKD_RUN}"; then
 		msg_starting "atalkd"
 		daemon atalkd
 		RETVAL_ATALKD=$?
@@ -116,15 +116,15 @@ case "$1" in
 	exit $?
 	;;
   status)
-	if is_yes "${ATALKD_RUN}"; then 
+	if is_yes "${ATALKD_RUN}"; then
 	    if is_yes "${PAPD_RUN}"; then
 		status papd
 	    fi
-	    
+
 	    if is_yes "${TIMELORD_RUN}"; then
 		status timelord
 	    fi
-	    
+
 	    if  is_yes "${AFPD_RUN}"; then
 		status afpd
 	    fi

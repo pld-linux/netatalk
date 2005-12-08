@@ -31,7 +31,7 @@ fi
 
 RETVAL=0
 case "$1" in
-  start) 
+  start)
 	if [ ! -f /var/lock/subsys/atalk ]; then
 		_insmod single -f /lib/modules/`uname -r`/misc/appletalk.o
 		if [ "$ATALK_BGROUND" = yes ]; then
@@ -55,7 +55,7 @@ case "$1" in
 	fi
 	touch /var/lock/subsys/atalk
 	;;
-  stop) 
+  stop)
 	if [ -f /var/lock/subsys/atalk ]; then
 		if [ "$ATALK_BGROUND" = yes ]; then
 			msg_stopping afpd
