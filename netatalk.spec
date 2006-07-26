@@ -83,12 +83,12 @@ rm -f missing
 	--with-msg-dir=%{_sysconfdir}/atalk/msg \
 	--enable-lastdid \
 	--enable-timelord \
-        --with-cracklib=%{_datadir}/dict/cracklib_dict \
-        --with-pam \
-        --with-shadow \
-        --with-tcp-wrappers \
-        --with-ssl \
-        --enable-pgp-uam
+		--with-cracklib=%{_datadir}/dict/cracklib_dict \
+		--with-pam \
+		--with-shadow \
+		--with-tcp-wrappers \
+		--with-ssl \
+		--enable-pgp-uam
 
 %{__make}
 
@@ -159,7 +159,7 @@ fi
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/netatalk-config
-%attr(644,root,root) %{_libdir}/libatalk.a
+%{_libdir}/libatalk.a
 %{_libdir}/libatalk.la
 %{_libdir}/atalk/*.a
 %{_libdir}/atalk/*.la
