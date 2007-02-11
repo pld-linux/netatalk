@@ -4,7 +4,7 @@ Summary(pt_BR):	Programas para rede AppleTalk
 Summary(zh_CN):	Appletalk 和 Appleshare/IP 服务工具
 Name:		netatalk
 Version:	2.0.3
-Release:	1
+Release:	2
 Epoch:		2
 License:	BSD
 Group:		Daemons
@@ -27,7 +27,7 @@ BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	pam-devel
 Requires(post):	/sbin/ldconfig
 Requires(post,preun):	/sbin/chkconfig
-Requires:	pam >= 0.77.3
+Requires:	pam >= 0.99.7.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
