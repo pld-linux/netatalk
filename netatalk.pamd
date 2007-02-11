@@ -6,4 +6,4 @@ account		required	pam_unix.so
 session		required	pam_unix.so
 session		optional	pam_lastlog.so
 password        required        pam_cracklib.so difok=2 minlen=8 d
-password        required        pam_make.so /var/db
+password        required        pam_exec.so failok seteuid /usr/bin/make -C /var/db
