@@ -1,7 +1,7 @@
 Summary:	AppleTalk networking programs
-Summary(pl):	Klient i serwer AppleTalk
-Summary(pt_BR):	Programas para rede AppleTalk
-Summary(zh_CN):	Appletalk ∫Õ Appleshare/IP ∑˛ŒÒπ§æﬂ
+Summary(pl.UTF-8):   Klient i serwer AppleTalk
+Summary(pt_BR.UTF-8):   Programas para rede AppleTalk
+Summary(zh_CN.UTF-8):   Appletalk Âíå Appleshare/IP ÊúçÂä°Â∑•ÂÖ∑
 Name:		netatalk
 Version:	2.0.3
 Release:	2
@@ -35,20 +35,20 @@ This package enables Linux to talk to Macintosh computers via the
 AppleTalk networking protocol. It includes a daemon to allow Linux to
 act as a file server over EtherTalk or IP for Mac's.
 
-%description -l pl
-Pakiet ten pozwala na komunikacjÍ komputerÛw OS Linux z Macintosh za
-po∂rednictwem protoko≥u AppleTalk. Uczyni twojego Linux-a serwerem
-oraz klienta plikÛw i wydrukÛw zarÛwno za po∂rednictwem protoko≥u
+%description -l pl.UTF-8
+Pakiet ten pozwala na komunikacjƒô komputer√≥w OS Linux z Macintosh za
+po≈õrednictwem protoko≈Çu AppleTalk. Uczyni twojego Linux-a serwerem
+oraz klienta plik√≥w i wydruk√≥w zar√≥wno za po≈õrednictwem protoko≈Çu
 EtherTalk jaki IP for Mac's.
 
-%description -l pt_BR
-Este pacote habilita o Linux a servir computadores Macintosh atravÈs
+%description -l pt_BR.UTF-8
+Este pacote habilita o Linux a servir computadores Macintosh atrav√©s
 do protocolo AppleTalk.
 
 %package devel
 Summary:	Headers and static libraries for Appletalk development
-Summary(pl):	Pliki nag≥Ûwkoew i biblioteki statyczne Appletalk
-Summary(pt_BR):	Arquivos de inclus„o e bibliotecas para o desenvolvimento de aplicativos baseados no protocolo AppleTalk
+Summary(pl.UTF-8):   Pliki nag≈Ç√≥wkoew i biblioteki statyczne Appletalk
+Summary(pt_BR.UTF-8):   Arquivos de inclus√£o e bibliotecas para o desenvolvimento de aplicativos baseados no protocolo AppleTalk
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}
 
@@ -56,12 +56,12 @@ Requires:	%{name} = %{epoch}:%{version}
 This packge contains the header files, and static libraries for
 building Appletalk networking programs.
 
-%description devel -l pl
-Pakiet ten zawiera pliki nag≥Ûwkowe i biblioteki statyczne serwera
+%description devel -l pl.UTF-8
+Pakiet ten zawiera pliki nag≈Ç√≥wkowe i biblioteki statyczne serwera
 AppleTalk.
 
-%description devel -l pt_BR
-Arquivos de inclus„o e bibliotecas para o desenvolvimento de
+%description devel -l pt_BR.UTF-8
+Arquivos de inclus√£o e bibliotecas para o desenvolvimento de
 aplicativos baseados no protocolo AppleTalk.
 
 %prep
