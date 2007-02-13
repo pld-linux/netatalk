@@ -1,7 +1,7 @@
 Summary:	AppleTalk networking programs
-Summary(pl.UTF-8):   Klient i serwer AppleTalk
-Summary(pt_BR.UTF-8):   Programas para rede AppleTalk
-Summary(zh_CN.UTF-8):   Appletalk 和 Appleshare/IP 服务工具
+Summary(pl.UTF-8):	Klient i serwer AppleTalk
+Summary(pt_BR.UTF-8):	Programas para rede AppleTalk
+Summary(zh_CN.UTF-8):	Appletalk 和 Appleshare/IP 服务工具
 Name:		netatalk
 Version:	2.0.3
 Release:	2
@@ -47,8 +47,8 @@ do protocolo AppleTalk.
 
 %package devel
 Summary:	Headers and static libraries for Appletalk development
-Summary(pl.UTF-8):   Pliki nagłówkoew i biblioteki statyczne Appletalk
-Summary(pt_BR.UTF-8):   Arquivos de inclusão e bibliotecas para o desenvolvimento de aplicativos baseados no protocolo AppleTalk
+Summary(pl.UTF-8):	Pliki nagłówkoew i biblioteki statyczne Appletalk
+Summary(pt_BR.UTF-8):	Arquivos de inclusão e bibliotecas para o desenvolvimento de aplicativos baseados no protocolo AppleTalk
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}
 
