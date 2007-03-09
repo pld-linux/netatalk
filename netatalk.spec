@@ -4,7 +4,7 @@ Summary(pt_BR):	Programas para rede AppleTalk
 Summary(zh_CN):	Appletalk 和 Appleshare/IP 服务工具
 Name:		netatalk
 Version:	2.0.3
-Release:	2
+Release:	3
 Epoch:		2
 License:	BSD
 Group:		Daemons
@@ -15,6 +15,7 @@ Source2:	%{name}.pamd
 Source3:	%{name}.sysconfig
 Source4:	ICDumpSuffixMap
 Patch0:		%{name}-no_libnsl.patch
+Patch1:		%{name}-uuid.patch
 URL:		http://www.umich.edu/~rsug/netatalk/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -22,6 +23,7 @@ BuildRequires:	cracklib-devel
 BuildRequires:	db-devel
 BuildRequires:	gettext-devel
 BuildRequires:	libtool
+BuildRequires:	libuuid-devel
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	pam-devel
 Requires(post):	/sbin/ldconfig
@@ -66,6 +68,7 @@ aplicativos baseados no protocolo AppleTalk.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 rm -f missing
