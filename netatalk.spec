@@ -4,7 +4,7 @@ Summary(pt_BR):	Programas para rede AppleTalk
 Summary(zh_CN):	Appletalk 和 Appleshare/IP 服务工具
 Name:		netatalk
 Version:	2.0.3
-Release:	1
+Release:	2
 Epoch:		2
 License:	BSD
 Group:		Daemons
@@ -24,8 +24,8 @@ BuildRequires:	gettext-devel
 BuildRequires:	libtool
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	pam-devel
-Requires(post,preun):	/sbin/chkconfig
 Requires(post):	/sbin/ldconfig
+Requires(post,preun):	/sbin/chkconfig
 Requires:	pam >= 0.77.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -81,12 +81,12 @@ rm -f missing
 	--with-msg-dir=%{_sysconfdir}/atalk/msg \
 	--enable-lastdid \
 	--enable-timelord \
-        --with-cracklib=%{_datadir}/dict/cracklib_dict \
-        --with-pam \
-        --with-shadow \
-        --with-tcp-wrappers \
-        --with-ssl \
-        --enable-pgp-uam
+		--with-cracklib=%{_datadir}/dict/cracklib_dict \
+		--with-pam \
+		--with-shadow \
+		--with-tcp-wrappers \
+		--with-ssl \
+		--enable-pgp-uam
 
 %{__make}
 
@@ -136,16 +136,16 @@ fi
 %doc ICDu* NEWS README TODO VERSION services.atalk doc
 %dir %{_sysconfdir}/atalk
 %dir %{_sysconfdir}/atalk/msg
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/AppleVolumes.default
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/AppleVolumes.system
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/netatalk
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/afpd.conf
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/atalkd.conf
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/atalk/papd.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/atalk/AppleVolumes.default
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/atalk/AppleVolumes.system
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/netatalk
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/atalk/afpd.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/atalk/atalkd.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/atalk/papd.conf
 
 %attr(755,root,root) %config %{_initrddir}/atalk
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/pam.d/netatalk
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/security/blacklist.netatalk
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/pam.d/netatalk
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/security/blacklist.netatalk
 
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_bindir}/[!n]*
@@ -157,7 +157,7 @@ fi
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/netatalk-config
-%attr(644,root,root) %{_libdir}/libatalk.a
+%{_libdir}/libatalk.a
 %{_libdir}/libatalk.la
 %{_libdir}/atalk/*.a
 %{_libdir}/atalk/*.la
