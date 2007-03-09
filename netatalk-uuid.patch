@@ -1,0 +1,11 @@
+--- netatalk-2.0.3/etc/afpd/Makefile.am~	2004-08-11 05:39:56.000000000 +0300
++++ netatalk-2.0.3/etc/afpd/Makefile.am	2007-03-09 13:30:35.224024911 +0200
+@@ -17,7 +17,7 @@
+ 	 filedir.h fork.h globals.h icon.h mangle.h misc.h status.h switch.h \
+ 	 uam_auth.h uid.h unix.h volume.h
+ 
+-LIBS = @LIBS@ @PAM_LIBS@ @QUOTA_LIBS@ @SLP_LIBS@ @WRAP_LIBS@
++LIBS = -luuid @LIBS@ @PAM_LIBS@ @QUOTA_LIBS@ @SLP_LIBS@ @WRAP_LIBS@
+ 
+ CFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/sys \
+ 	 @CFLAGS@ @SLP_CFLAGS@ \
