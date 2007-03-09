@@ -1,0 +1,4 @@
+- added missing "-I macros" to aclocal parameters on regenerate aclocal.m4,
+- remove from %post/%postun /etc/services manipulations,
+- added somo files to %files)
+- NOTE: NYF.
