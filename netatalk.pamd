@@ -1,9 +1,7 @@
 #%PAM-1.0
-auth		required	pam_listfile.so item=user sense=deny file=/etc/security/blacklist onerr=succeed
 auth		required	pam_listfile.so item=user sense=deny file=/etc/security/blacklist.netatalk onerr=succeed
-auth		required	pam_unix.so
-account		required	pam_unix.so
-session		required	pam_unix.so
+auth		include		system-auth
+account		include		system-auth
+password	include		system-auth
+session		include		system-auth
 session		optional	pam_lastlog.so
-password        required        pam_cracklib.so difok=2 minlen=8 d
-password        required        pam_exec.so failok seteuid /usr/bin/make -C /var/db
