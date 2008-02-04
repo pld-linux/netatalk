@@ -22,6 +22,7 @@ BuildRequires:	automake
 BuildRequires:	cracklib-devel
 BuildRequires:	db-devel
 BuildRequires:	gettext-devel
+BuildRequires:	libltdl-devel
 BuildRequires:	libtool
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	pam-devel
