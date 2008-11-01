@@ -1,0 +1,10 @@
+--- netatalk-2.0.3/etc/afpd/quota.c.org	2008-11-01 15:34:41.377545683 +0100
++++ netatalk-2.0.3/etc/afpd/quota.c	2008-11-01 15:36:54.194822507 +0100
+@@ -65,6 +65,7 @@
+ #include <linux/xqm.h>
+ #else
+ #ifdef HAVE_XFS_XQM_H
++#define SWAB_H
+ #include <xfs/xqm.h>
+ #define HAVE_LINUX_XQM_H
+ #endif /* HAVE_XFS_XQM_H */
