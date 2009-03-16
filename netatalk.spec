@@ -4,7 +4,7 @@ Summary(pt_BR.UTF-8):	Programas para rede AppleTalk
 Summary(zh_CN.UTF-8):	Appletalk 和 Appleshare/IP 服务工具
 Name:		netatalk
 Version:	2.0.3
-Release:	3
+Release:	4
 Epoch:		2
 License:	BSD
 Group:		Daemons
@@ -117,6 +117,8 @@ install %{SOURCE4} .
 # to avoid conflict with glibc-devel
 rm -f $RPM_BUILD_ROOT%{_includedir}/atalk/at.h
 rm -f $RPM_BUILD_ROOT%{_includedir}/netatalk/at.h
+# to avoid conflict with coreutils-7.1
+rm -f $RPM_BUILD_ROOT%{_bindir}/timeout
 
 %clean
 rm -rf $RPM_BUILD_ROOT
