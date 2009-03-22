@@ -107,7 +107,7 @@ install -d $RPM_BUILD_ROOT/etc/{rc.d/init.d,pam.d,security,sysconfig,atalk/msg} 
 	MANDIR=$RPM_BUILD_ROOT%{_mandir} \
 	m4datadir=%{_aclocaldir}
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_initrddir}/atalk
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/atalk
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/pam.d/netatalk
 install %{SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/netatalk
 install %{SOURCE4} .
@@ -127,12 +127,12 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/ldconfig
 /sbin/chkconfig --add atalk
 if [ "$1" = "1" ] ; then
-	echo "Run \"%{_initrddir}/atalk start\" to start netatalk." >&2
+	echo "Run \"/etc/rc.d/init.d/atalk start\" to start netatalk." >&2
 fi
 
 %preun
 if [ "$1" = "0" ]; then
-	%{_initrddir}/atalk stop >&2
+	/etc/rc.d/init.d/atalk stop >&2
 	/sbin/chkconfig --del atalk
 fi
 
@@ -150,7 +150,7 @@ fi
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/atalk/atalkd.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/atalk/papd.conf
 
-%attr(755,root,root) %config %{_initrddir}/atalk
+%attr(755,root,root) %config /etc/rc.d/init.d/atalk
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/pam.d/netatalk
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/security/blacklist.netatalk
 
