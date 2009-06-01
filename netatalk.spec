@@ -3,20 +3,18 @@ Summary(pl.UTF-8):	Klient i serwer AppleTalk
 Summary(pt_BR.UTF-8):	Programas para rede AppleTalk
 Summary(zh_CN.UTF-8):	Appletalk 和 Appleshare/IP 服务工具
 Name:		netatalk
-Version:	2.0.3
-Release:	4
+Version:	2.0.4
+Release:	1
 Epoch:		2
 License:	BSD
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/netatalk/%{name}-%{version}.tar.bz2
-# Source0-md5:	28092763085783805dc2f00aa2127a3e
+# Source0-md5:	6f2f40b51ab9268836ef89a7dffaccb0
 Source1:	%{name}.init
 Source2:	%{name}.pamd
 Source3:	%{name}.sysconfig
 Source4:	ICDumpSuffixMap
-Patch0:		%{name}-no_libnsl.patch
-Patch1:		%{name}-db.patch
-Patch2:		%{name}-build.patch
+Patch0:		%{name}-build.patch
 URL:		http://www.umich.edu/~rsug/netatalk/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -40,7 +38,7 @@ act as a file server over EtherTalk or IP for Mac's.
 %description -l pl.UTF-8
 Pakiet ten pozwala na komunikację komputerów OS Linux z Macintosh za
 pośrednictwem protokołu AppleTalk. Uczyni twojego Linux-a serwerem
-oraz klienta plików i wydruków zarówno za pośrednictwem protokołu
+oraz klientem plików i wydruków zarówno za pośrednictwem protokołu
 EtherTalk jaki IP for Mac's.
 
 %description -l pt_BR.UTF-8
@@ -69,8 +67,6 @@ aplicativos baseados no protocolo AppleTalk.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
 
 %build
 rm -f missing
