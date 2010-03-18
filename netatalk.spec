@@ -2,14 +2,15 @@ Summary:	AppleTalk networking programs
 Summary(pl.UTF-8):	Klient i serwer AppleTalk
 Summary(pt_BR.UTF-8):	Programas para rede AppleTalk
 Summary(zh_CN.UTF-8):	Appletalk 和 Appleshare/IP 服务工具
+%define beta beta1
 Name:		netatalk
-Version:	2.0.4
-Release:	1
+Version:	2.1
+Release:	0.%{beta}.1
 Epoch:		2
 License:	BSD
 Group:		Daemons
-Source0:	http://dl.sourceforge.net/netatalk/%{name}-%{version}.tar.bz2
-# Source0-md5:	6f2f40b51ab9268836ef89a7dffaccb0
+Source0:	http://dl.sourceforge.net/netatalk/%{name}-%{version}%{beta}.tar.bz2
+# Source0-md5:	f9049565e7076b44b7b13d6e277458cd
 Source1:	%{name}.init
 Source2:	%{name}.pamd
 Source3:	%{name}.sysconfig
@@ -65,7 +66,7 @@ Arquivos de inclusão e bibliotecas para o desenvolvimento de
 aplicativos baseados no protocolo AppleTalk.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}%{beta}
 %patch0 -p1
 
 %build
