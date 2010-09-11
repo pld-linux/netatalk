@@ -21,6 +21,7 @@ URL:		http://www.umich.edu/~rsug/netatalk/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	cracklib-devel
+BuildRequires:	db-devel >= 4.6.0
 BuildRequires:	gettext-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	libtool
@@ -90,7 +91,6 @@ rm -f missing
 		--with-tcp-wrappers \
 		--with-ssl \
 		--enable-pgp-uam \
-		--with-bdb=/usr
 
 %{__make}
 
