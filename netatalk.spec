@@ -23,7 +23,7 @@ URL:		http://www.umich.edu/~rsug/netatalk/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	cracklib-devel
-BuildRequires:	db-devel >= %{reqdb_ver}}
+BuildRequires:	db-devel >= %{reqdb_ver}
 BuildRequires:	gettext-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	libtool
