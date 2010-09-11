@@ -1,6 +1,4 @@
 # versions of required libraries
-%define         reqdb_ver       4.6.0
-
 Summary:	AppleTalk networking programs
 Summary(pl.UTF-8):	Klient i serwer AppleTalk
 Summary(pt_BR.UTF-8):	Programas para rede AppleTalk
@@ -23,7 +21,6 @@ URL:		http://www.umich.edu/~rsug/netatalk/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	cracklib-devel
-BuildRequires:	db-devel >= %{reqdb_ver}
 BuildRequires:	gettext-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	libtool
@@ -92,7 +89,8 @@ rm -f missing
 		--with-shadow \
 		--with-tcp-wrappers \
 		--with-ssl \
-		--enable-pgp-uam
+		--enable-pgp-uam \
+		--with-bdb=/usr
 
 %{__make}
 
