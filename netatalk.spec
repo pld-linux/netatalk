@@ -6,7 +6,7 @@ Summary(zh_CN.UTF-8):	Appletalk 和 Appleshare/IP 服务工具
 %define beta beta1
 Name:		netatalk
 Version:	2.1
-Release:	0.%{beta}.1
+Release:	0.%{beta}.2
 Epoch:		2
 License:	BSD
 Group:		Daemons
