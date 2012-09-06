@@ -8,3 +8,24 @@
  #include <xfs/xqm.h>
  #define HAVE_LINUX_XQM_H
  #endif /* HAVE_XFS_XQM_H */
+--- netatalk-3.0/Makefile.am~	2012-05-30 17:00:28.000000000 +0200
++++ netatalk-3.0/Makefile.am	2012-09-06 13:43:26.659673026 +0200
+@@ -1,6 +1,6 @@
+ # Makefile.am for top level of netatalk package
+ 
+-SUBDIRS = libatalk libevent bin config etc man contrib distrib include doc macros test
++SUBDIRS = libatalk bin config etc man contrib distrib include doc macros test
+ 
+ EXTRA_DIST = CONTRIBUTORS COPYRIGHT COPYING NEWS VERSION
+ 
+--- netatalk-3.0/etc/netatalk/Makefile.am~	2012-04-04 12:13:17.000000000 +0200
++++ netatalk-3.0/etc/netatalk/Makefile.am	2012-09-06 13:45:26.799668789 +0200
+@@ -20,4 +20,6 @@
+ 
+ netatalk_LDADD += \
+ 	$(top_builddir)/libevent/libevent.la
+-endif
+\ No newline at end of file
++else
++netatalk_LDADD += -levent
++endif

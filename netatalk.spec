@@ -3,15 +3,14 @@ Summary:	AppleTalk networking programs
 Summary(pl.UTF-8):	Klient i serwer AppleTalk
 Summary(pt_BR.UTF-8):	Programas para rede AppleTalk
 Summary(zh_CN.UTF-8):	Appletalk 和 Appleshare/IP 服务工具
-%define beta beta1
 Name:		netatalk
-Version:	2.1
-Release:	0.%{beta}.1
+Version:	3.0
+Release:	1
 Epoch:		2
 License:	BSD
 Group:		Daemons
-Source0:	http://dl.sourceforge.net/netatalk/%{name}-%{version}%{beta}.tar.bz2
-# Source0-md5:	f9049565e7076b44b7b13d6e277458cd
+Source0:	http://download.sourceforge.net/netatalk/%{name}-%{version}.tar.bz2
+# Source0-md5:	62eb034011bb60b0bfd95072af3693dc
 Source1:	%{name}.init
 Source2:	%{name}.pamd
 Source3:	%{name}.sysconfig
@@ -23,6 +22,7 @@ BuildRequires:	automake
 BuildRequires:	cracklib-devel
 BuildRequires:	db-devel >= 4.6.0
 BuildRequires:	gettext-devel
+BuildRequires:	libevent-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	libtool
 BuildRequires:	openssl-devel >= 0.9.7d
@@ -68,7 +68,7 @@ Arquivos de inclusão e bibliotecas para o desenvolvimento de
 aplicativos baseados no protocolo AppleTalk.
 
 %prep
-%setup -q -n %{name}-%{version}%{beta}
+%setup -q
 %patch0 -p1
 
 %build
@@ -85,12 +85,13 @@ rm -f missing
 	--with-msg-dir=%{_sysconfdir}/atalk/msg \
 	--enable-lastdid \
 	--enable-timelord \
-		--with-cracklib=%{_datadir}/dict/cracklib_dict \
-		--with-pam \
-		--with-shadow \
-		--with-tcp-wrappers \
-		--with-ssl \
-		--enable-pgp-uam \
+	--with-cracklib=%{_datadir}/dict/cracklib_dict \
+	--with-pam \
+	--with-shadow \
+	--with-tcp-wrappers \
+	--with-ssl \
+	--enable-pgp-uam \
+	--disable-bundled-libevent
 
 %{__make}
 
@@ -139,15 +140,11 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc ICDu* NEWS README TODO VERSION services.atalk doc
+%doc ICDu* NEWS VERSION doc
 %dir %{_sysconfdir}/atalk
 %dir %{_sysconfdir}/atalk/msg
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/atalk/AppleVolumes.default
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/atalk/AppleVolumes.system
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/atalk/afp.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/netatalk
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/atalk/afpd.conf
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/atalk/atalkd.conf
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/atalk/papd.conf
 
 %attr(755,root,root) %config /etc/rc.d/init.d/atalk
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/pam.d/netatalk
@@ -155,7 +152,8 @@ fi
 
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_bindir}/[!n]*
-%attr(755,root,root) %{_bindir}/n[!e]*
+%attr(755,root,root) %{_libdir}/libatalk.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libatalk.so.1
 %dir %{_libdir}/atalk
 %attr(755,root,root) %{_libdir}/atalk/*.so
 %{_mandir}/*/*
@@ -163,10 +161,10 @@ fi
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/netatalk-config
+%attr(755,root,root) %{_libdir}/libatalk.so
 %{_libdir}/libatalk.a
 %{_libdir}/libatalk.la
 %{_libdir}/atalk/*.a
 %{_libdir}/atalk/*.la
 %{_includedir}/atalk
-%{_includedir}/netatalk/*
 %{_aclocaldir}/*
