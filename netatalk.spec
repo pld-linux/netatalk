@@ -5,7 +5,7 @@ Summary(pt_BR.UTF-8):	Programas para rede AppleTalk
 Summary(zh_CN.UTF-8):	Appletalk 和 Appleshare/IP 服务工具
 Name:		netatalk
 Version:	3.0
-Release:	2
+Release:	3
 Epoch:		2
 License:	BSD
 Group:		Daemons
@@ -16,6 +16,7 @@ Source2:	%{name}.pamd
 Source3:	%{name}.sysconfig
 Source4:	ICDumpSuffixMap
 Patch0:		%{name}-build.patch
+Patch1:		format-security.patch
 URL:		http://www.umich.edu/~rsug/netatalk/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -70,6 +71,7 @@ aplicativos baseados no protocolo AppleTalk.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 rm -f missing
