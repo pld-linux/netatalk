@@ -1,31 +1,12 @@
---- netatalk-2.0.3/etc/afpd/quota.c.org	2008-11-01 15:34:41.377545683 +0100
-+++ netatalk-2.0.3/etc/afpd/quota.c	2008-11-01 15:36:54.194822507 +0100
-@@ -65,6 +65,7 @@
- #include <linux/xqm.h>
- #else
- #ifdef HAVE_XFS_XQM_H
-+#define SWAB_H
- #include <xfs/xqm.h>
- #define HAVE_LINUX_XQM_H
- #endif /* HAVE_XFS_XQM_H */
---- netatalk-3.0/Makefile.am~	2012-05-30 17:00:28.000000000 +0200
-+++ netatalk-3.0/Makefile.am	2012-09-06 13:43:26.659673026 +0200
-@@ -1,6 +1,6 @@
- # Makefile.am for top level of netatalk package
+diff -ur netatalk-3.0.2-o/configure.ac netatalk-3.0.2/configure.ac
+--- netatalk-3.0.2-o/configure.ac	2013-01-21 10:28:44.000000000 -0700
++++ netatalk-3.0.2/configure.ac	2013-03-19 17:44:47.000000000 -0600
+@@ -7,7 +7,7 @@
  
--SUBDIRS = libatalk libevent bin config etc man contrib distrib include doc macros test
-+SUBDIRS = libatalk bin config etc man contrib distrib include doc macros test
+ AC_CANONICAL_SYSTEM
+ AM_INIT_AUTOMAKE(netatalk, ${NETATALK_VERSION})
+-AM_CONFIG_HEADER(config.h)
++AC_CONFIG_HEADER([config.h])
+ AM_MAINTAINER_MODE([enable])
  
- EXTRA_DIST = CONTRIBUTORS COPYRIGHT COPYING NEWS VERSION
- 
---- netatalk-3.0/etc/netatalk/Makefile.am~	2012-04-04 12:13:17.000000000 +0200
-+++ netatalk-3.0/etc/netatalk/Makefile.am	2012-09-06 13:45:26.799668789 +0200
-@@ -20,4 +20,6 @@
- 
- netatalk_LDADD += \
- 	$(top_builddir)/libevent/libevent.la
--endif
-\ No newline at end of file
-+else
-+netatalk_LDADD += -levent
-+endif
+ dnl Checks for programs.

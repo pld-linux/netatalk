@@ -4,13 +4,13 @@ Summary(pl.UTF-8):	Klient i serwer AppleTalk
 Summary(pt_BR.UTF-8):	Programas para rede AppleTalk
 Summary(zh_CN.UTF-8):	Appletalk 和 Appleshare/IP 服务工具
 Name:		netatalk
-Version:	3.0
-Release:	3
+Version:	3.0.2
+Release:	1
 Epoch:		2
 License:	BSD
 Group:		Daemons
-Source0:	http://download.sourceforge.net/netatalk/%{name}-%{version}.tar.bz2
-# Source0-md5:	62eb034011bb60b0bfd95072af3693dc
+Source0:	http://downloads.sourceforge.net/netatalk/%{name}-%{version}.tar.bz2
+# Source0-md5:	b5f1c2c4b3a5e64f5bca219415aa1c75
 Source1:	%{name}.init
 Source2:	%{name}.pamd
 Source3:	%{name}.sysconfig
@@ -93,7 +93,7 @@ rm -f missing
 	--with-tcp-wrappers \
 	--with-ssl \
 	--enable-pgp-uam \
-	--disable-bundled-libevent
+	--with-libevent=%{_libdir}
 
 %{__make}
 
@@ -146,16 +146,17 @@ fi
 %dir %{_sysconfdir}/atalk
 %dir %{_sysconfdir}/atalk/msg
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/atalk/afp.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/atalk/extmap.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/netatalk
 
-%attr(755,root,root) %config /etc/rc.d/init.d/atalk
+%attr(754,root,root) %config /etc/rc.d/init.d/atalk
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/pam.d/netatalk
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/security/blacklist.netatalk
 
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_bindir}/[!n]*
 %attr(755,root,root) %{_libdir}/libatalk.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libatalk.so.1
+%attr(755,root,root) %ghost %{_libdir}/libatalk.so.3
 %dir %{_libdir}/atalk
 %attr(755,root,root) %{_libdir}/atalk/*.so
 %{_mandir}/*/*
