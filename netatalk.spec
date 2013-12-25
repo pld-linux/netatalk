@@ -5,7 +5,7 @@ Summary(pt_BR.UTF-8):	Programas para rede AppleTalk
 Summary(zh_CN.UTF-8):	Appletalk 和 Appleshare/IP 服务工具
 Name:		netatalk
 Version:	3.0.2
-Release:	1
+Release:	2
 Epoch:		2
 License:	BSD
 Group:		Daemons
