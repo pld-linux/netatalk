@@ -4,19 +4,17 @@ Summary(pl.UTF-8):	Klient i serwer AppleTalk
 Summary(pt_BR.UTF-8):	Programas para rede AppleTalk
 Summary(zh_CN.UTF-8):	Appletalk 和 Appleshare/IP 服务工具
 Name:		netatalk
-Version:	3.0.2
-Release:	2
+Version:	3.1.7
+Release:	1
 Epoch:		2
 License:	BSD
 Group:		Daemons
 Source0:	http://downloads.sourceforge.net/netatalk/%{name}-%{version}.tar.bz2
-# Source0-md5:	b5f1c2c4b3a5e64f5bca219415aa1c75
+# Source0-md5:	831ec8bf9e084b64f965d16c528af299
 Source1:	%{name}.init
 Source2:	%{name}.pamd
 Source3:	%{name}.sysconfig
 Source4:	ICDumpSuffixMap
-Patch0:		%{name}-build.patch
-Patch1:		format-security.patch
 URL:		http://www.umich.edu/~rsug/netatalk/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -70,8 +68,6 @@ aplicativos baseados no protocolo AppleTalk.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
 
 %build
 rm -f missing
@@ -147,6 +143,10 @@ fi
 %dir %{_sysconfdir}/atalk/msg
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/atalk/afp.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/atalk/extmap.conf
+
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/atalk/dbus-session.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/dbus-1/system.d/netatalk-dbus.conf
+
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/netatalk
 
 %attr(754,root,root) %config /etc/rc.d/init.d/atalk
@@ -156,7 +156,7 @@ fi
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_bindir}/[!n]*
 %attr(755,root,root) %{_libdir}/libatalk.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libatalk.so.3
+%attr(755,root,root) %ghost %{_libdir}/libatalk.so.16
 %dir %{_libdir}/atalk
 %attr(755,root,root) %{_libdir}/atalk/*.so
 %{_mandir}/*/*
