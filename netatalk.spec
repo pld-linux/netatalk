@@ -20,7 +20,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	cracklib-devel
 BuildRequires:	db-devel >= 4.6.0
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	libevent-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	libtool
