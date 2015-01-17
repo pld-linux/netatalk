@@ -168,6 +168,8 @@ Statyczna biblioteka Netatalk.
 
 %{__make}
 
+%{__make} -C doc/manual html-local
+
 %install
 rm -rf $RPM_BUILD_ROOT
 
@@ -210,7 +212,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS CONTRIBUTORS COPYRIGHT NEWS ICDumpSuffixMap doc/manual/*.html
+%doc AUTHORS CONTRIBUTORS COPYRIGHT NEWS ICDumpSuffixMap doc/manual/{configuration,example-toc,index,installation,intro,manual-index,netatalk,pr01,table-toc,upgrade}.html
 %dir %{_sysconfdir}/atalk
 %dir %{_sysconfdir}/atalk/msg
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/atalk/afp.conf
