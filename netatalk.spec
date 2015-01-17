@@ -1,14 +1,13 @@
 # TODO: AFS support?
+# system talloc
 #
 # Conditional build:
 %bcond_without	kerberos5	# Kerberos V UAM
 %bcond_without	systemtap	# SystemTap/DTrace support
 %bcond_without	tracker		# Spotlight support via tracker
 #
-Summary:	AppleTalk networking programs
-Summary(pl.UTF-8):	Klient i serwer AppleTalk
-Summary(pt_BR.UTF-8):	Programas para rede AppleTalk
-Summary(zh_CN.UTF-8):	AppleTalk 和 Appleshare/IP 服务工具
+Summary:	Netatalk AFP fileserver for Apple clients
+Summary(pl.UTF-8):	Netatalk - serwer plików AFP dla klientów Apple
 Name:		netatalk
 Version:	3.1.7
 Release:	2
@@ -66,36 +65,32 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_localstatedir	/var/lib
 
 %description
-This package enables Linux to talk to Macintosh computers via the
-AppleTalk networking protocol. It includes a daemon to allow Linux to
-act as a file server over EtherTalk or IP for Mac's.
+Netatalk is a freely-available Open Source AFP fileserver. A *NIX/*BSD
+system running Netatalk is capable of serving many Apple clients
+simultaneously as an AppleShare file server (AFP).
 
 %description -l pl.UTF-8
-Pakiet ten pozwala na komunikację Linuksa z komputerami Macintosh za
-pośrednictwem protokołu AppleTalk. Zawiera demona umożliwiającego, aby
-Linux służył jako serwer plików poprzez EtherTalk lub IP dla klientów
-Mac.
-
-%description -l pt_BR.UTF-8
-Este pacote habilita o Linux a servir computadores Macintosh através
-do protocolo AppleTalk.
+Netatalk to wolnodostępny, mający otwarte źródła serwer plików oparty
+na protokole AFP. System uniksowy z działającym Netatalkiem potrafi
+serwować wielu klientom Apple jednocześnie jako serwer plików
+AppleShare (AFP).
 
 %package libs
-Summary:	AppleTalk shared library
-Summary(pl.UTF-8):	Biblioteka współdzielona AppleTalk
+Summary:	Netatalk shared library
+Summary(pl.UTF-8):	Biblioteka współdzielona Netatalk
 Group:		Libraries
 Conflicts:	netatalk < 2:3.1.7-2
 
 %description libs
-AppleTalk shared library.
+Netatalk shared library.
 
 %description libs -l pl.UTF-8
-Biblioteka współdzielona AppleTalk.
+Biblioteka współdzielona Netatalk.
 
 %package devel
-Summary:	Header files for AppleTalk development
-Summary(pl.UTF-8):	Pliki nagłówkowe AppleTalk
-Summary(pt_BR.UTF-8):	Arquivos de inclusão para o desenvolvimento de aplicativos baseados no protocolo AppleTalk
+Summary:	Header files for Netatalk development
+Summary(pl.UTF-8):	Pliki nagłówkowe Netatalk
+Summary(pt_BR.UTF-8):	Arquivos de inclusão para o desenvolvimento de aplicativos baseados no protocolo Netatalk
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
 Requires:	acl-devel
@@ -109,28 +104,28 @@ Requires:	pam-devel
 Requires:	tdb-devel
 
 %description devel
-This packge contains the header files for building AppleTalk
+This packge contains the header files for building Netatalk
 networking programs.
 
 %description devel -l pl.UTF-8
 Ten pakiet zawiera pliki nagłówkowe do tworzenia oprogramowania
-wykorzystującego protokół AppleTalk.
+wykorzystującego protokół Netatalk.
 
 %description devel -l pt_BR.UTF-8
 Arquivos de inclusão para o desenvolvimento de aplicativos baseados no
-protocolo AppleTalk.
+protocolo Netatalk.
 
 %package static
-Summary:	Static AppleTalk library
-Summary(pl.UTF-8):	Statyczna biblioteka AppleTalk
+Summary:	Static Netatalk library
+Summary(pl.UTF-8):	Statyczna biblioteka Netatalk
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 
 %description static
-Static AppleTalk library.
+Static Netatalk library.
 
 %description static -l pl.UTF-8
-Statyczna biblioteka AppleTalk.
+Statyczna biblioteka Netatalk.
 
 %prep
 %setup -q
@@ -160,9 +155,10 @@ Statyczna biblioteka AppleTalk.
 	--with-pkgconfdir=%{_sysconfdir}/atalk \
 	--with-uams-path=%{_libdir}/atalk \
 	--with-cracklib=%{_datadir}/dict/cracklib_dict \
+	--with-docbook=%{_datadir}/sgml/docbook/xsl-stylesheets \
 	%{!?with_systemtap:--without-dtrace} \
 	--with-init-style=debian-systemd \
-	--with-libevent=%{_libdir} \
+	--with-libevent-lib=%{_libdir} \
 	--with-pam \
 	--with-shadow \
 	--with-ssl \
