@@ -1,4 +1,4 @@
- TODO: AFS support?
+# TODO: AFS support?
 #
 # Conditional build:
 %bcond_without	kerberos5	# Kerberos V UAM
@@ -8,10 +8,10 @@
 Summary:	AppleTalk networking programs
 Summary(pl.UTF-8):	Klient i serwer AppleTalk
 Summary(pt_BR.UTF-8):	Programas para rede AppleTalk
-Summary(zh_CN.UTF-8):	Appletalk 和 Appleshare/IP 服务工具
+Summary(zh_CN.UTF-8):	AppleTalk 和 Appleshare/IP 服务工具
 Name:		netatalk
 Version:	3.1.7
-Release:	1
+Release:	2
 Epoch:		2
 License:	GPL v2+ (with BSD parts)
 Group:		Daemons
@@ -56,6 +56,7 @@ BuildRequires:	tdb-devel
 %{?with_tracker:BuildRequires:	tracker-devel >= 1.0}
 Requires(post):	/sbin/ldconfig
 Requires(post,preun):	/sbin/chkconfig
+Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
 Requires:	dbus >= 1.1
 Requires:	libgcrypt >= 1.4.5
 Requires:	pam >= 0.99.7.1
@@ -79,24 +80,57 @@ Mac.
 Este pacote habilita o Linux a servir computadores Macintosh através
 do protocolo AppleTalk.
 
+%package libs
+Summary:	AppleTalk shared library
+Summary(pl.UTF-8):	Biblioteka współdzielona AppleTalk
+Group:		Libraries
+Conflicts:	netatalk < 2:3.1.7-2
+
+%description libs
+AppleTalk shared library.
+
+%description libs -l pl.UTF-8
+Biblioteka współdzielona AppleTalk.
+
 %package devel
-Summary:	Headers and static libraries for Appletalk development
-Summary(pl.UTF-8):	Pliki nagłówkowe i biblioteki statyczne Appletalk
-Summary(pt_BR.UTF-8):	Arquivos de inclusão e bibliotecas para o desenvolvimento de aplicativos baseados no protocolo AppleTalk
+Summary:	Header files for AppleTalk development
+Summary(pl.UTF-8):	Pliki nagłówkowe AppleTalk
+Summary(pt_BR.UTF-8):	Arquivos de inclusão para o desenvolvimento de aplicativos baseados no protocolo AppleTalk
 Group:		Development/Libraries
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
+Requires:	acl-devel
+Requires:	attr-devel
+Requires:	cracklib-devel
+Requires:	libwrap-devel
+Requires:	mysql-devel
+Requires:	openldap-devel
+Requires:	openssl-devel
+Requires:	pam-devel
+Requires:	tdb-devel
 
 %description devel
-This packge contains the header files, and static libraries for
-building Appletalk networking programs.
+This packge contains the header files for building AppleTalk
+networking programs.
 
 %description devel -l pl.UTF-8
-Pakiet ten zawiera pliki nagłówkowe i biblioteki statyczne serwera
-AppleTalk.
+Ten pakiet zawiera pliki nagłówkowe do tworzenia oprogramowania
+wykorzystującego protokół AppleTalk.
 
 %description devel -l pt_BR.UTF-8
-Arquivos de inclusão e bibliotecas para o desenvolvimento de
-aplicativos baseados no protocolo AppleTalk.
+Arquivos de inclusão para o desenvolvimento de aplicativos baseados no
+protocolo AppleTalk.
+
+%package static
+Summary:	Static AppleTalk library
+Summary(pl.UTF-8):	Statyczna biblioteka AppleTalk
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
+
+%description static
+Static AppleTalk library.
+
+%description static -l pl.UTF-8
+Statyczna biblioteka AppleTalk.
 
 %prep
 %setup -q
@@ -164,7 +198,6 @@ install %{SOURCE4} .
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/sbin/ldconfig
 /sbin/chkconfig --add atalk
 if [ "$1" = "1" ] ; then
 	echo "Run \"/etc/rc.d/init.d/atalk start\" to start netatalk." >&2
@@ -176,7 +209,8 @@ if [ "$1" = "0" ]; then
 	/sbin/chkconfig --del atalk
 fi
 
-%postun	-p /sbin/ldconfig
+%post	libs -p /sbin/ldconfig
+%postun	libs -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
@@ -209,8 +243,6 @@ fi
 %attr(755,root,root) %{_sbindir}/cnid_dbd
 %attr(755,root,root) %{_sbindir}/cnid_metad
 %attr(755,root,root) %{_sbindir}/netatalk
-%attr(755,root,root) %{_libdir}/libatalk.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libatalk.so.16
 %dir %{_libdir}/atalk
 %attr(755,root,root) %{_libdir}/atalk/uams_*.so
 %{_mandir}/man1/ad.1*
@@ -230,12 +262,20 @@ fi
 %{_mandir}/man8/cnid_metad.8*
 %{_mandir}/man8/netatalk.8*
 
+%files libs
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libatalk.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libatalk.so.16
+
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/netatalk-config
 %attr(755,root,root) %{_libdir}/libatalk.so
-%{_libdir}/libatalk.a
 %{_libdir}/libatalk.la
 %{_includedir}/atalk
 %{_aclocaldir}/netatalk.m4
 %{_mandir}/man1/netatalk-config.1*
+
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/libatalk.a
