@@ -10,7 +10,7 @@ Summary:	Netatalk AFP fileserver for Apple clients
 Summary(pl.UTF-8):	Netatalk - serwer plików AFP dla klientów Apple
 Name:		netatalk
 Version:	3.1.7
-Release:	4
+Release:	5
 Epoch:		2
 License:	GPL v2+ (with BSD parts)
 Group:		Daemons
