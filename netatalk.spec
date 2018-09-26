@@ -9,13 +9,13 @@
 Summary:	Netatalk AFP fileserver for Apple clients
 Summary(pl.UTF-8):	Netatalk - serwer plików AFP dla klientów Apple
 Name:		netatalk
-Version:	3.1.7
-Release:	6
+Version:	3.1.11
+Release:	1
 Epoch:		2
 License:	GPL v2+ (with BSD parts)
 Group:		Daemons
 Source0:	http://downloads.sourceforge.net/netatalk/%{name}-%{version}.tar.bz2
-# Source0-md5:	831ec8bf9e084b64f965d16c528af299
+# Source0-md5:	8f79ce2a275b128ebb07188766f088fc
 Source1:	%{name}.init
 Source2:	%{name}.pamd
 Source3:	%{name}.sysconfig
@@ -263,7 +263,7 @@ fi
 %files libs
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libatalk.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libatalk.so.16
+%attr(755,root,root) %ghost %{_libdir}/libatalk.so.18
 
 %files devel
 %defattr(644,root,root,755)
