@@ -10,7 +10,7 @@ Summary:	Netatalk AFP fileserver for Apple clients
 Summary(pl.UTF-8):	Netatalk - serwer plików AFP dla klientów Apple
 Name:		netatalk
 Version:	3.1.11
-Release:	2
+Release:	3
 Epoch:		2
 License:	GPL v2+ (with BSD parts)
 Group:		Daemons
@@ -130,7 +130,9 @@ Statyczna biblioteka Netatalk.
 %prep
 %setup -q
 
-%{__sed} -i -e '1s,/usr/bin/env python,/usr/bin/python,' contrib/shell_utils/afpstats
+%{__sed} -E -i -e '1s,#!\s*/usr/bin/env\s+python(\s|$),#!%{__python}\1,' \
+      contrib/shell_utils/afpstats \
+      libevent/event_rpcgen.py
 
 %build
 %{__libtoolize}
